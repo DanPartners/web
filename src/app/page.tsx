@@ -27,28 +27,57 @@ function SectionHead({ eyebrow, title }: { eyebrow?: React.ReactNode; title: Rea
 
 const features = [
   {
-    key: "site",
-    title: <L en="Your own ordering site" zh="自家落單網站" />,
+    key: "counter",
+    title: <L en="The counter" zh="櫃檯" />,
     body: (
-      <L
-        en="Customers order at your own address, like yourshop.dan.partners. They pay by card or at the shop."
-        zh="顧客在你自己的網址落單，例如 yourshop.dan.partners。可用信用卡付款，或到店付款。"
-      />
+      <ul className="m-0 list-disc space-y-1.5 pl-5">
+        <li>
+          <L
+            en="An orders board on a tablet: new, preparing, ready, then collected, delivered or served."
+            zh="平板電腦上的訂單板：新單、準備中、可取餐，然後是已取餐、已送達或已上菜。"
+          />
+        </li>
+        <li>
+          <L en="A till keyed by dish number, like 2 × 81." zh="以餐牌編號落單的收銀，例如 2 × 81。" />
+        </li>
+      </ul>
     ),
     icon: (
       <>
-        <rect x="4" y="6" width="40" height="30" />
-        <path d="M4 14h40M18 42h12M24 36v6" />
+        <rect x="4" y="8" width="40" height="28" rx="2" />
+        <path d="M12 18h14M12 26h24M16 42h16" />
+      </>
+    ),
+  },
+  {
+    key: "menu",
+    title: <L en="Menu, allergens and sales" zh="餐牌、致敏原和銷售" />,
+    body: (
+      <ul className="m-0 list-disc space-y-1.5 pl-5">
+        <li>
+          <L
+            en="A menu with the UK 14 allergens, and a sold-out switch."
+            zh="餐牌有英國 14 種致敏原，以及售罄開關。"
+          />
+        </li>
+        <li>
+          <L en="Sales for the owner. A PIN for staff." zh="老闆可看銷售。員工用 PIN 碼登入。" />
+        </li>
+      </ul>
+    ),
+    icon: (
+      <>
+        <path d="M6 10h4M6 24h4M6 38h4M16 10h26M16 24h26M16 38h18" />
       </>
     ),
   },
   {
     key: "qr",
-    title: <L en="QR ordering at the table" zh="枱面二維碼落單" />,
+    title: <L en="QR orders at the table" zh="枱面二維碼落單" />,
     body: (
       <L
-        en="Eat-in guests scan the code on their table and order from their phone. They pay by card or at the shop."
-        zh="堂食客人掃描枱上的二維碼，用手機落單。可用信用卡付款，或到店付款。"
+        en="Guests scan the code on their table and order from their phone. They pay by card or at the shop."
+        zh="客人掃描枱上的二維碼，用手機落單。可用信用卡付款，或到店付款。"
       />
     ),
     icon: (
@@ -61,50 +90,83 @@ const features = [
     ),
   },
   {
-    key: "counter",
-    title: <L en="The counter" zh="櫃檯" />,
+    key: "site",
+    title: <L en="Your own online ordering site" zh="自家網上落單網站" />,
     body: (
-      <ul className="m-0 list-disc space-y-1.5 pl-5">
-        <li>
-          <L
-            en="A tablet dashboard: new, preparing, ready, then collected, delivered or served."
-            zh="平板電腦儀表板：新單、準備中、可取餐，然後是已取餐、已送達或已上菜。"
-          />
-        </li>
-        <li>
-          <L en="A till keyed by dish number, like 2 × 81." zh="以餐牌編號落單的收銀，例如 2 × 81。" />
-        </li>
-        <li>
-          <L
-            en="Menu in English and Chinese, the UK 14 allergens, and a sold-out switch."
-            zh="餐牌有中英文名稱、英國 14 種致敏原，以及售罄開關。"
-          />
-        </li>
-        <li>
-          <L en="Sales for the owner. A PIN for staff." zh="老闆可看銷售。員工用 PIN 碼登入。" />
-        </li>
-      </ul>
+      <L
+        en="Customers order online from the shop's own site, at a free address like yourshop.dan.partners. Collection orders too."
+        zh="顧客在店舖自己的網站網上落單，網址免費，例如 yourshop.dan.partners。也可以落自取訂單。"
+      />
     ),
     icon: (
       <>
-        <rect x="4" y="8" width="40" height="28" rx="2" />
-        <path d="M12 18h14M12 26h24M16 42h16" />
+        <rect x="4" y="6" width="40" height="30" />
+        <path d="M4 14h40M18 42h12M24 36v6" />
+      </>
+    ),
+  },
+  {
+    key: "domain",
+    title: <L en="Your own domain" zh="自己的域名" />,
+    body: (
+      <L
+        en="Shops can use their own domain for the ordering site, for example order.yourrestaurant.co.uk, as well as the free yourshop.dan.partners address."
+        zh="店舖可以用自己的域名作落單網站，例如 order.yourrestaurant.co.uk，也可以用免費的 yourshop.dan.partners 網址。"
+      />
+    ),
+    icon: (
+      <>
+        <circle cx="24" cy="24" r="18" />
+        <path d="M6 24h36M24 6c-10 10-10 26 0 36M24 6c10 10 10 26 0 36" />
+      </>
+    ),
+  },
+  {
+    key: "pay",
+    title: <L en="Card payments to the shop" zh="信用卡款項歸店舖" />,
+    body: (
+      <L
+        en="Card payments go straight to the shop through Stripe."
+        zh="信用卡付款經 Stripe 處理，款項直接歸店舖。"
+      />
+    ),
+    icon: (
+      <>
+        <rect x="4" y="10" width="40" height="28" rx="2" />
+        <path d="M4 19h40M10 30h10" />
       </>
     ),
   },
   {
     key: "kitchen",
-    title: <L en="Kitchen tickets in two languages" zh="中英文廚房單" />,
+    title: <L en="Kitchen tickets by station" zh="按工作站分開的廚房單" />,
     body: (
       <L
-        en="Every ticket is in Chinese and English, split by station: wok, fryer, rice, counter."
-        zh="每張廚房單都有中文和英文，並按工作站分開：炒鑊、炸爐、飯、櫃檯。"
+        en="Each station gets its own ticket, with dish names in two languages, Chinese and English."
+        zh="每個工作站有自己的廚房單，菜名有中文和英文兩種語言。"
       />
     ),
     icon: (
       <>
         <path d="M10 4h28v36l-5 4-5-4-4 4-4-4-5 4-5-4z" />
         <path d="M17 14h14M17 22h14M17 30h8" />
+      </>
+    ),
+  },
+  {
+    key: "theme",
+    title: <L en="A theme that is yours" zh="屬於你的主題" />,
+    body: (
+      <L
+        en="Pick a preset, or choose your own colours and typeface. The counter and your customers' ordering site both use it."
+        zh="選一個預設主題，或自選顏色和字體。櫃檯和顧客的落單網站都會採用。"
+      />
+    ),
+    icon: (
+      <>
+        <rect x="5" y="5" width="16" height="38" />
+        <path d="M21 14l14-9 8 14-14 9M21 43h22" />
+        <circle cx="13" cy="35" r="2" />
       </>
     ),
   },
@@ -153,7 +215,12 @@ export default function Home() {
           <DanMark size={40} />
           <span className="wordmark text-[1.75rem] leading-none">Dan</span>
         </a>
-        <LangSwitch />
+        <div className="flex items-center gap-2 sm:gap-3">
+          <LangSwitch />
+          <a className="btn btn-seal btn-sm" href={site.loginUrl} target="_blank" rel="noopener noreferrer">
+            <L en="Log in" zh="登入" />
+          </a>
+        </div>
       </header>
 
       <main id="main">
@@ -170,18 +237,18 @@ export default function Home() {
                 style={{ ["--d" as string]: 1 }}
               >
                 <L
-                  en="The shop keeps what it earns."
-                  zh="賺到的，都是店家的。"
+                  en="The point of sale that runs your shop."
+                  zh="替你打理整間店的收銀系統。"
                 />
               </h1>
               <p className="hero-in mt-5 max-w-xl text-xl leading-relaxed" style={{ ["--d" as string]: 2 }}>
                 <L
-                  en="Dan is an ordering and counter system for independent Chinese takeaways in the UK. Your own ordering site, 0% commission."
-                  zh="Dan 是為英國獨立中式外賣店而設的落單及櫃檯系統。自家落單網站，零佣金。"
+                  en="Dan is an in-shop POS for restaurants and food shops of any cuisine. It runs the counter, takes orders at the table and on your own online site, and keeps working offline. 0% commission on your own online orders."
+                  zh="Dan 是為餐廳和食品店而設的店內收銀系統（POS），任何菜式都適用。它負責櫃檯運作，接收枱面和自家網站的訂單，斷網也照常運作。自家網站訂單零佣金。"
                 />
               </p>
               <p className="hero-in mt-3 text-base text-ink-soft" style={{ ["--d" as string]: 3 }}>
-                <L en="In Cantonese, Mandarin and English." zh="支援廣東話、普通話和英文。" />
+                <L en="Menus and kitchen tickets in two languages. Talk to us in Cantonese, Mandarin or English." zh="餐牌和廚房單支援兩種語言。歡迎用廣東話、普通話或英文與我們溝通。" />
               </p>
               <div className="hero-in mt-8 flex flex-wrap gap-3" style={{ ["--d" as string]: 4 }}>
                 <a className="btn btn-seal" href={site.demoUrl} target="_blank" rel="noopener noreferrer">
@@ -206,12 +273,12 @@ export default function Home() {
           <div className="reveal">
             <SectionHead
               eyebrow={<L en="What Dan does" zh="Dan 的功能" />}
-              title={<L en="Orders in, tickets out, the bill kept" zh="訂單進來，廚房單出去，賬目清楚" />}
+              title={<L en="The counter, the table and the web, in one system" zh="櫃檯、枱面和網上，一個系統搞定" />}
             />
             <p className={lead}>
               <L
-                en="Orders come from the shop's own site or a table's QR code. They land on the counter tablet and go to the kitchen in two languages."
-                zh="訂單來自店舖自己的網站或枱上的二維碼，直接到櫃檯平板，並以雙語傳到廚房。"
+                en="Dan helps the shop run the business. Orders come from the counter, a table's QR code or the shop's own site, and each one goes to the right station in the kitchen."
+                zh="Dan 幫店舖打理生意。訂單來自櫃檯、枱上的二維碼或店舖自己的網站，每張都會傳到廚房對應的工作站。"
               />
             </p>
           </div>
@@ -244,8 +311,8 @@ export default function Home() {
             </span>
             <p className="m-0 font-medium">
               <L
-                en="Dan sits beside your current till and card machine. You keep both."
-                zh="Dan 放在你現有的收銀機和刷卡機旁邊，兩者都可繼續使用。"
+                en="Menus and kitchen tickets in two languages, Chinese and English."
+                zh="餐牌和廚房單有中英文兩種語言。"
               />
             </p>
           </div>
@@ -257,8 +324,8 @@ export default function Home() {
               </h3>
               <p className={lead}>
                 <L
-                  en="Each station gets only its own dishes, with the Chinese name and the English name on the same ticket."
-                  zh="每個工作站只收到自己的菜式，中文名和英文名在同一張單上。"
+                  en="Each station gets only its own dishes, with the Chinese name and the English name on the same ticket, so every cook can read it."
+                  zh="每個工作站只收到自己的菜式，中文名和英文名在同一張單上，每位廚師都看得明白。"
                 />
               </p>
             </div>
@@ -376,8 +443,8 @@ export default function Home() {
               </h2>
               <p className="mb-0 mt-3 max-w-xl text-lg text-ink-soft">
                 <L
-                  en="See the counter dashboard for yourself: the orders, the till and the menu."
-                  zh="親自看看櫃檯儀表板：訂單、收銀和餐牌。"
+                  en="See the counter for yourself. The demo opens on the orders board."
+                  zh="親自看看櫃檯。示範會直接打開訂單板。"
                 />
               </p>
             </div>
@@ -396,8 +463,8 @@ export default function Home() {
               </h2>
               <p className="mt-4 max-w-2xl text-lg opacity-90">
                 <L
-                  en="Dan is being built and has not launched yet. If you run a takeaway and want to hear more, talk to us for pilot pricing. You can talk to us in Cantonese, Mandarin or English."
-                  zh="Dan 仍在開發中，尚未推出。如果你經營外賣店，想知道更多，歡迎聯絡我們了解試行計劃價錢。你可以用廣東話、普通話或英文與我們溝通。"
+                  en="Dan is being built and has not launched yet. If you run a restaurant or food shop and want to hear more, talk to us for pilot pricing. You can talk to us in Cantonese, Mandarin or English."
+                  zh="Dan 仍在開發中，尚未推出。如果你經營餐廳或食品店，想知道更多，歡迎聯絡我們了解試行計劃價錢。你可以用廣東話、普通話或英文與我們溝通。"
                 />
               </p>
               {hasContact ? (
@@ -431,8 +498,8 @@ export default function Home() {
           </div>
           <p className="mb-0 mt-4 max-w-2xl text-[0.9375rem] leading-relaxed">
             <L
-              en="Dan Partners is a trading name of Slashie Ltd. Registered in England and Wales, company no. 17276315."
-              zh="Dan Partners 是 Slashie Ltd 的商號。於英格蘭及威爾斯註冊，公司編號 17276315。"
+              en="Developed by Slashie Ltd. Dan Partners is a trading name of Slashie Ltd, registered in England and Wales, company no. 17276315."
+              zh="由 Slashie Ltd 開發。Dan Partners 是 Slashie Ltd 的商號，於英格蘭及威爾斯註冊，公司編號 17276315。"
             />
           </p>
           <p className="mb-0 mt-2 text-[0.9375rem] text-ink-soft">

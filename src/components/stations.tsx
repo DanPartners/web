@@ -1,9 +1,9 @@
 import { L } from "./l";
 
 const stations = [
-  { en: "Wok", zh: "炒鑊", dishEn: "Sweet and sour chicken", dishZh: "甜酸雞", qty: "2" },
-  { en: "Fryer", zh: "炸爐", dishEn: "Spring rolls", dishZh: "春卷", qty: "1" },
-  { en: "Rice", zh: "飯", dishEn: "Egg fried rice", dishZh: "蛋炒飯", qty: "1" },
+  { en: "Grill", zh: "燒烤爐", dishEn: "Chicken burger", dishZh: "雞肉漢堡", qty: "2" },
+  { en: "Fryer", zh: "炸爐", dishEn: "Chips", dishZh: "薯條", qty: "1" },
+  { en: "Cold", zh: "冷盤", dishEn: "Garden salad", dishZh: "田園沙律", qty: "1" },
   { en: "Counter", zh: "櫃檯", dishEn: "Canned drink", dishZh: "罐裝飲品", qty: "1" },
 ];
 
@@ -13,8 +13,8 @@ export function Stations() {
     <figure className="split m-0 grid items-start gap-6 md:grid-cols-[minmax(0,17rem)_1fr] md:gap-10" aria-labelledby="split-cap">
       <figcaption id="split-cap" className="sr-only">
         <L
-          en="One sample order split into four kitchen tickets: wok, fryer, rice and counter."
-          zh="一張訂單樣本分成四張廚房單：炒鑊、炸爐、飯和櫃檯。"
+          en="One sample order split into four kitchen tickets: grill, fryer, cold and counter."
+          zh="一張訂單樣本分成四張廚房單：燒烤爐、炸爐、冷盤和櫃檯。"
         />
       </figcaption>
       <div aria-hidden className="relative mx-auto w-full max-w-[17rem] md:mx-0">

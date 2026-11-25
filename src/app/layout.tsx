@@ -36,9 +36,9 @@ const notoTc = Noto_Sans_TC({
 });
 
 export const metadata: Metadata = {
-  title: "Dan 單",
+  title: "Dan 單 | Point of sale for restaurants and food shops",
   description:
-    "Dan is an ordering and counter system for independent Chinese takeaways in the UK. 0% commission. In Cantonese, Mandarin and English.",
+    "Dan is an in-shop POS for restaurants and food shops of any cuisine. The counter, QR orders at the table, your own online ordering site, card payments to the shop and kitchen tickets by station. It keeps working offline. 0% commission on your own online orders.",
   applicationName: "Dan",
 };
 

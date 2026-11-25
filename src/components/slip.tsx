@@ -32,13 +32,13 @@ export function HeroSlip() {
               <div className="slip-rule" />
               <ul className="m-0 list-none space-y-1.5 p-0">
                 <li>
-                  <b className="text-seal">2 × 81</b> <L en="Sweet and sour chicken" zh="甜酸雞" />
+                  <b className="text-seal">2 × 81</b> <L en="Chicken burger" zh="雞肉漢堡" />
                 </li>
                 <li>
-                  <b className="text-seal">1 × 52</b> <L en="Egg fried rice" zh="蛋炒飯" />
+                  <b className="text-seal">1 × 52</b> <L en="Chips" zh="薯條" />
                 </li>
                 <li>
-                  <b className="text-seal">1 × 14</b> <L en="Spring rolls" zh="春卷" />
+                  <b className="text-seal">1 × 14</b> <L en="Garden salad" zh="田園沙律" />
                 </li>
               </ul>
               <div className="slip-rule" />
