@@ -1,4 +1,5 @@
 import { Diagram } from "@/components/diagram";
+import { DemoQr } from "@/components/demo-qr";
 import { L } from "@/components/l";
 import { LangSwitch } from "@/components/lang-switch";
 import { DanMark } from "@/components/mark";
@@ -451,6 +452,25 @@ export default function Home() {
             <a className="btn btn-seal justify-self-start md:justify-self-end" href={site.demoUrl} target="_blank" rel="noopener noreferrer">
               <L en="Open the demo" zh="打開示範" />
             </a>
+            <div className="flex flex-col gap-5 border-t-2 border-dashed border-rule pt-6 sm:flex-row sm:items-center md:col-span-2" data-testid="order-demo">
+              <DemoQr url={site.orderDemoUrl} label="QR code: order as a customer at table 5 of the demo shop" />
+              <div>
+                <h3 className="m-0 text-xl font-semibold sm:text-2xl">
+                  <L en="Order as a customer" zh="以顧客身分落單" />
+                </h3>
+                <p className="mb-0 mt-2 max-w-xl text-ink-soft">
+                  <L
+                    en="Scan with your phone to order at table 5 of our demo shop. Watch your order get its number, go to the kitchen and come to your table, in about a minute."
+                    zh="用手機掃描，在示範店的 5 號枱落單。看看訂單怎樣取得號碼、送到廚房，再送到你的枱，大約一分鐘。"
+                  />
+                </p>
+                <p className="mb-0 mt-3 text-sm">
+                  <a className="underline decoration-2 underline-offset-4" href={site.orderDemoUrl} target="_blank" rel="noopener noreferrer">
+                    <L en="Or open order.dan.partners/?table=5" zh="或打開 order.dan.partners/?table=5" />
+                  </a>
+                </p>
+              </div>
+            </div>
           </div>
         </section>
 
@@ -497,10 +517,21 @@ export default function Home() {
             <span className="wordmark text-2xl leading-none">Dan</span>
           </div>
           <p className="mb-0 mt-4 max-w-2xl text-[0.9375rem] leading-relaxed">
-            <L
-              en="Developed by Slashie Ltd. Dan Partners is a trading name of Slashie Ltd, registered in England and Wales, company no. 17276315."
-              zh="由 Slashie Ltd 開發。Dan Partners 是 Slashie Ltd 的商號，於英格蘭及威爾斯註冊，公司編號 17276315。"
-            />
+            {/* DRAFT Chinese, as elsewhere: to be checked by a Cantonese speaker. */}
+            <span data-l="en" lang="en">
+              Developed by{" "}
+              <a className="underline decoration-2 underline-offset-4" href={site.slashieUrl} target="_blank" rel="noopener noreferrer">
+                Slashie Ltd
+              </a>
+              . <span className="wordmark">Dan</span> Partners is a trading name of Slashie Ltd, registered in England and Wales, company no. 17276315.
+            </span>
+            <span data-l="zh" lang="zh-Hant">
+              由{" "}
+              <a className="underline decoration-2 underline-offset-4" href={site.slashieUrl} target="_blank" rel="noopener noreferrer">
+                Slashie Ltd
+              </a>{" "}
+              開發。<span className="wordmark">Dan</span> Partners 是 Slashie Ltd 的商號，於英格蘭及威爾斯註冊，公司編號 17276315。
+            </span>
           </p>
           <p className="mb-0 mt-2 text-[0.9375rem] text-ink-soft">
             <L en="This site has no cookies and no tracking." zh="本網站沒有使用 cookies，也沒有追蹤。" />

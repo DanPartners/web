@@ -30,6 +30,8 @@ All links live in `src/site.ts`:
 
 - `loginUrl`: where the header "Log in" button goes (`https://my.dan.partners`).
 - `demoUrl`: where "Try the demo" goes (`https://my.dan.partners/shop/orders?demo=1`, the demo on the orders board).
+- `orderDemoUrl`: the demo shop's ordering page (`https://order.dan.partners/?table=5`). The QR code in "Try the demo" points here; it is drawn at build time (npm `qrcode`), so no QR service is called. The demo shop is the Dan cloud's (`dan-cloud shop add ... --slug order --demo`).
+- `slashieUrl`: the footer's link to Slashie Ltd.
 - `whatsapp`: a full link such as `https://wa.me/44...`. Empty hides the button.
 - `email`: an address. Empty hides the button.
 
