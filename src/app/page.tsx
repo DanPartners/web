@@ -592,24 +592,25 @@ export default function Home() {
                 zh="設置費在月費以外另行收取。"
               />
             </p>
-            <div className="mt-5 grid grid-cols-1 gap-5 sm:grid-cols-2">
-              <div>
-                <p className="m-0 text-4xl font-semibold leading-none">£220</p>
-                <p className="m-0 mt-2 text-[0.9375rem] font-medium">
-                  <L en="including VAT" zh="已含增值稅" />
-                </p>
+            <div className="mt-5">
+              <p className="sr-only m-0">
+                <L
+                  en="The usual setup fee is £220 including VAT. The discount price is £99 including VAT."
+                  zh="設置費原價為 £220，已含增值稅。折扣價為 £99，已含增值稅。"
+                />
+              </p>
+              <div aria-hidden="true" className="flex items-baseline gap-4">
+                <del className="text-2xl font-semibold leading-none text-ink-soft">£220</del>
+                <span className="text-4xl font-semibold leading-none sm:text-5xl">£99</span>
               </div>
-              <div>
-                <p className="m-0 text-4xl font-semibold leading-none">£99</p>
-                <p className="m-0 mt-2 text-[0.9375rem] font-medium">
-                  <L en="including VAT, at the current discount" zh="已含增值稅，現時折扣" />
-                </p>
-              </div>
+              <p aria-hidden="true" className="m-0 mt-2 text-[0.9375rem] font-medium">
+                <L en="including VAT" zh="已含增值稅" />
+              </p>
             </div>
             <p className="mb-0 mt-5 max-w-2xl">
               <L
-                en="Both figures are for the same setup fee. Hardware is charged separately."
-                zh="兩個金額均為同一項設置費。硬件另行收費。"
+                en="The duo service also has a maintenance fee of £5 a month. Hardware is charged separately."
+                zh="雙系統服務另有維護費，每月 £5。硬件另行收費。"
               />
             </p>
           </div>
