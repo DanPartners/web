@@ -97,8 +97,8 @@ const features = [
       <div className="space-y-3">
         <p className="m-0">
           <L
-            en="Customers order collection or delivery on the shop's own site, at a free address like yourshop.dan.partners. The owner switches on or off collection, delivery by the shop, and delivery handed to Uber Direct."
-            zh="顧客在店舖自己的網站落自取或外送單，網址免費，例如 yourshop.dan.partners。老闆可以開關自取、店舖自己外送，以及交由 Uber Direct 外送。"
+            en="Customers order collection or delivery on the free Dan template, at an address like yourshop.dan.partners. The owner switches on or off collection, delivery by the shop, and delivery handed to Uber Direct."
+            zh="顧客在免費的 Dan 模板落自取或外送單，網址例如 yourshop.dan.partners。老闆可以開關自取、店舖自己外送，以及交由 Uber Direct 外送。"
           />
         </p>
         <p className="m-0">
@@ -118,12 +118,34 @@ const features = [
   },
   {
     key: "domain",
-    title: <L en="Your own domain" zh="自己的域名" />,
+    title: <L en="Custom domain or website" zh="自訂域名或網站" />,
     body: (
-      <L
-        en="Shops can use their own domain for the ordering site, for example order.yourrestaurant.co.uk, as well as the free yourshop.dan.partners address."
-        zh="店舖可以用自己的域名作落單網站，例如 order.yourrestaurant.co.uk，也可以用免費的 yourshop.dan.partners 網址。"
-      />
+      <div className="space-y-3">
+        <p className="m-0">
+          <L
+            en="The Dan template and a Dan address, like yourshop.dan.partners, are free. They are included."
+            zh="Dan 模板和 Dan 網址是免費的，已經包含在內，例如 yourshop.dan.partners。"
+          />
+        </p>
+        <p className="m-0">
+          <L
+            en="A custom domain, for example order.yourrestaurant.co.uk, or a fully customised website, is provided by "
+            zh="自訂域名，例如 order.yourrestaurant.co.uk，或完全自訂的網站，由 "
+          />
+          <a
+            className="underline decoration-2 underline-offset-4"
+            href={site.slashieUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Slashie Ltd
+          </a>
+          <L en=". This work is not free. " zh=" 提供。這項工作不是免費的。" />
+          <a className="underline decoration-2 underline-offset-4" href="#talk">
+            <L en="Talk to us." zh="歡迎聯絡我們。" />
+          </a>
+        </p>
+      </div>
     ),
     icon: (
       <>
@@ -191,8 +213,8 @@ const features = [
     title: <L en="A theme that is yours" zh="屬於你的主題" />,
     body: (
       <L
-        en="Pick a preset, or choose your own colours and typeface. The counter and your customers' ordering site both use it."
-        zh="選一個預設主題，或自選顏色和字體。櫃檯和顧客的落單網站都會採用。"
+        en="Pick a preset, or choose your own colours and typeface. This is included. The counter and the Dan template both use it."
+        zh="選一個預設主題，或自選顏色和字體。這已包含在內。櫃檯和 Dan 模板都會採用。"
       />
     ),
     icon: (
@@ -317,8 +339,8 @@ export default function Home() {
               </h1>
               <p className="hero-in mt-5 max-w-xl text-xl leading-relaxed" style={{ ["--d" as string]: 2 }}>
                 <L
-                  en="Dan is an in-shop POS for restaurants and food shops of any cuisine. It runs the counter, takes orders at the table and on your own online site, and keeps working offline. 0% commission on your own online orders."
-                  zh="Dan 是為餐廳和食品店而設的店內收銀系統（POS），任何菜式都適用。它負責櫃檯運作，接收枱面和自家網站的訂單，斷網也照常運作。自家網站訂單零佣金。"
+                  en="Dan is an in-shop POS for restaurants and food shops of any cuisine. It runs the counter, takes orders at the table and on your own online site, and keeps working offline. Start from 0% commission for 50 online orders a month. 0% commission on your own online orders, on every plan."
+                  zh="Dan 是為餐廳和食品店而設的店內收銀系統（POS），任何菜式都適用。它負責櫃檯運作，接收枱面和自家網站的訂單，斷網也照常運作。由零佣金、每月 50 張網上訂單開始。每個計劃的自家網上訂單都是零佣金。"
                 />
               </p>
               <p className="hero-in mt-3 text-base text-ink-soft" style={{ ["--d" as string]: 3 }}>
@@ -501,8 +523,8 @@ export default function Home() {
               />
               <p className={lead}>
                 <L
-                  en="Move your regulars off the delivery apps and onto your own site. 0% commission on your own online orders. Delivery handed to Uber Direct is still your own online order. The shop pays Uber for the courier. That payment is not a Dan commission."
-                  zh="把熟客從外賣平台帶到你自己的網站。自家網上訂單零佣金。交由 Uber Direct 外送，仍然是你自己的網上訂單。速遞費由店舖付給 Uber，不是 Dan 的佣金。"
+                  en="Move your regulars off the delivery apps and onto your own site. 0% commission on your own online orders, on every plan. Delivery handed to Uber Direct is still your own online order. The shop pays Uber for the courier. That payment is not a Dan commission."
+                  zh="把熟客從外賣平台帶到你自己的網站。每個計劃的自家網上訂單都是零佣金。交由 Uber Direct 外送，仍然是你自己的網上訂單。速遞費由店舖付給 Uber，不是 Dan 的佣金。"
                 />
               </p>
               <p className="mt-3 max-w-2xl text-base text-ink-soft">
@@ -520,12 +542,12 @@ export default function Home() {
           <div className="reveal">
             <SectionHead
               eyebrow={<L en="Pricing" zh="價錢" />}
-              title={<L en="Monthly plans" zh="每月計劃" />}
+              title={<L en="Start from 0% commission for 50 online orders a month" zh="由零佣金、每月 50 張網上訂單開始" />}
             />
             <p className={lead}>
               <L
-                en="Dan is being built and has not launched yet. These are the plans. 0% commission on your own online orders."
-                zh="Dan 仍在開發中，尚未推出。以下是計劃。自家網上訂單零佣金。"
+                en="That is the free plan. 0% commission on your own online orders, on every plan. Dan is being built and has not launched yet."
+                zh="這是免費計劃。每個計劃的自家網上訂單都是零佣金。Dan 仍在開發中，尚未推出。"
               />
             </p>
           </div>
