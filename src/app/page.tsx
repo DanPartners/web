@@ -377,6 +377,12 @@ export default function Home() {
                 zh="Dan 幫店舖打理生意。老闆可以開關落單方式：收銀、枱面二維碼堂食、自取、店舖自己外送，以及交由 Uber Direct 外送。每張訂單都會傳到廚房對應的工作站。"
               />
             </p>
+            <p className="mt-3 max-w-2xl text-lg text-ink-soft">
+              <L
+                en="Dan can run beside the shop's current till, which still works."
+                zh="Dan 可以放在店舖現有的收銀旁邊，現有的收銀照常運作。"
+              />
+            </p>
           </div>
 
           <ul className="m-0 mt-10 grid list-none grid-cols-1 gap-5 p-0 md:grid-cols-2">
@@ -564,6 +570,43 @@ export default function Home() {
               </li>
             ))}
           </ul>
+          <div className="reveal mt-8 border-[3px] border-ink bg-slip p-5 sm:p-6">
+            <h3 className="m-0 text-2xl font-semibold leading-tight">
+              <L en="Duo setup" zh="雙系統設置" />
+            </h3>
+            <p className="mb-0 mt-3 max-w-2xl">
+              <L
+                en="The duo system means Dan sits beside the shop's current till. That till still works. The shop does not have to replace it."
+                zh="雙系統是指 Dan 放在店舖現有的收銀旁邊。現有的收銀照常運作。店舖不必換掉收銀才用 Dan。"
+              />
+            </p>
+            <p className="mb-0 mt-3 max-w-2xl">
+              <L
+                en="Setup for the duo system is an extra fee, on top of the monthly plan."
+                zh="雙系統的設置費是月費以外的額外費用。"
+              />
+            </p>
+            <div className="mt-5 grid grid-cols-1 gap-5 sm:grid-cols-2">
+              <div>
+                <p className="m-0 text-4xl font-semibold leading-none">£220</p>
+                <p className="m-0 mt-2 text-[0.9375rem] font-medium">
+                  <L en="including VAT" zh="已含增值稅" />
+                </p>
+              </div>
+              <div>
+                <p className="m-0 text-4xl font-semibold leading-none">£99</p>
+                <p className="m-0 mt-2 text-[0.9375rem] font-medium">
+                  <L en="including VAT, with the discount" zh="已含增值稅，有折扣" />
+                </p>
+              </div>
+            </div>
+            <p className="mb-0 mt-5 max-w-2xl">
+              <L
+                en="Both prices are the same setup fee. The device fee is not included."
+                zh="兩個價錢是同一項設置費。裝置費不包括在內。"
+              />
+            </p>
+          </div>
           <div className="reveal mt-8 max-w-2xl space-y-3 text-base">
             <p className="m-0">
               <L
