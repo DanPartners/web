@@ -6,7 +6,7 @@ export function HeroSlip() {
   return (
     <figure className="m-0 mx-auto w-full max-w-[19rem]" aria-labelledby="slip-cap">
       <figcaption id="slip-cap" className="sr-only">
-        <L en="A sample order slip, as it prints at the counter." zh="櫃檯打印出來的訂單單據樣本。" />
+        <L en="A sample order slip, as printed at the counter." zh="櫃檯列印的訂單單據樣本。" />
       </figcaption>
       <div aria-hidden className="relative">
         <div className="h-3.5 rounded-sm bg-ink" />

@@ -13,8 +13,8 @@ export function Stations() {
     <figure className="split m-0 grid items-start gap-6 md:grid-cols-[minmax(0,17rem)_1fr] md:gap-10" aria-labelledby="split-cap">
       <figcaption id="split-cap" className="sr-only">
         <L
-          en="One sample order split into four kitchen tickets: grill, fryer, cold and counter."
-          zh="一張訂單樣本分成四張廚房單：燒烤爐、炸爐、冷盤和櫃檯。"
+          en="One sample order, divided into four kitchen tickets: grill, fryer, cold and counter."
+          zh="一張訂單樣本分為四張廚房單：燒烤爐、炸爐、冷盤及櫃檯。"
         />
       </figcaption>
       <div aria-hidden className="relative mx-auto w-full max-w-[17rem] md:mx-0">

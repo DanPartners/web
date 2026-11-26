@@ -46,8 +46,8 @@ export function Diagram() {
         title={<L en="The shop" zh="店舖" />}
         body={
           <L
-            en="A small machine at the counter. The till, the dashboard and the kitchen tickets run on it."
-            zh="櫃檯旁的小型機器。收銀、儀表板和廚房單都在這裏運作。"
+            en="A small machine at the counter runs the till, the dashboard and the kitchen tickets."
+            zh="櫃檯旁的小型機器運行收銀、儀表板及廚房單。"
           />
         }
       >
@@ -63,8 +63,8 @@ export function Diagram() {
         title={<L en="Dan cloud" zh="Dan 雲端" />}
         body={
           <L
-            en="Holds your ordering site and table QR pages, and syncs with the shop within seconds."
-            zh="存放你的落單網站和枱面二維碼頁面，並在幾秒內與店舖同步。"
+            en="The Dan cloud hosts the ordering site and the table QR pages, and syncs with the shop within seconds."
+            zh="Dan 雲端存放落單網站及枱面二維碼頁面，並在數秒內與店舖同步。"
           />
         }
       >
@@ -77,8 +77,8 @@ export function Diagram() {
         title={<L en="Your customers" zh="你的顧客" />}
         body={
           <L
-            en="Order on your own site, or scan the QR code at the table. Pay in person, by card or by bank transfer."
-            zh="在你自己的網站落單，或掃描枱上的二維碼。可到店付款、用信用卡或銀行轉帳。"
+            en="Customers order on the shop's site or by scanning the QR code at the table. They can pay in person, by card, or by bank transfer."
+            zh="顧客在店舖網站落單，或掃描枱上的二維碼。付款可為到店、信用卡或銀行轉帳。"
           />
         }
       >
