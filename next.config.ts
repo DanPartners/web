@@ -1,8 +1,8 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  // A static site: `npm run build` writes plain files to out/.
-  output: "export",
+  // Server-rendered so public prices can be read from Stripe and revalidated.
+  // A static export cannot refresh those prices after the build.
   poweredByHeader: false,
   devIndicators: false,
   trailingSlash: true,
