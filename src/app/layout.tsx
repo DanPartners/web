@@ -1,7 +1,9 @@
 import type { Metadata, Viewport } from "next";
 import { Bodoni_Moda, IBM_Plex_Mono, IBM_Plex_Sans, Noto_Sans_TC } from "next/font/google";
 import { Motion } from "@/components/motion";
+import { getPricing } from "@/lib/get-pricing";
 import { LANG_BOOT_SCRIPT } from "@/lib/lang";
+import { pricingCopy } from "@/lib/pricing";
 import "./globals.css";
 
 // next/font downloads these at build time and serves them from this site.
@@ -35,12 +37,25 @@ const notoTc = Noto_Sans_TC({
   preload: false,
 });
 
-export const metadata: Metadata = {
-  title: "Dan 單 | Point of sale for restaurants and food shops",
-  description:
-    "Dan is an in-shop point of sale for restaurants and food shops. It is being built and has not launched yet. Plans begin at £0 a month, with 50 online orders included. On every plan, the first 100 card orders carry no Dan fee; after that, the fee is 3% of each card payment, at most £1 an order.",
-  applicationName: "Dan",
-};
+const title = "Dan 單 | Point of sale for restaurants and food shops";
+
+export const revalidate = 3600;
+
+export async function generateMetadata(): Promise<Metadata> {
+  const copy = pricingCopy(await getPricing());
+  return {
+    title,
+    description: copy.metaDescriptionEn,
+    applicationName: "Dan",
+    openGraph: {
+      title,
+      description: copy.metaDescriptionEn,
+      siteName: "Dan",
+      locale: "en_GB",
+      type: "website",
+    },
+  };
+}
 
 export const viewport: Viewport = {
   themeColor: "#F5EEDC",

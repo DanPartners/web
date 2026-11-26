@@ -5,6 +5,8 @@ import { LangSwitch } from "@/components/lang-switch";
 import { DanMark } from "@/components/mark";
 import { HeroSlip } from "@/components/slip";
 import { Stations } from "@/components/stations";
+import { getPricing } from "@/lib/get-pricing";
+import { pricingCopy } from "@/lib/pricing";
 import { site } from "@/site";
 
 /*
@@ -108,8 +110,8 @@ const features = [
         </p>
         <p className="m-0">
           <L
-            en="Uber Direct is a courier service. The customer orders on Dan, the shop retains the customer, and the shop sets the delivery fee. Courier charges are paid by the shop to Uber. The shop is not listed on Uber Eats. Dan makes no extra charge for these orders; its usual fee on card payments applies."
-            zh="Uber Direct 是速遞服務。顧客在 Dan 落單，店舖保留顧客，並自行設定外送費。速遞費用由店舖支付予 Uber。店舖不會在 Uber Eats 上架。Dan 不會就此等訂單額外收費，一般的卡付款費用照常適用。"
+            en="Uber Direct is a courier service. The customer orders on Dan, and the shop sets the delivery fee. Courier charges are paid by the shop to Uber. The shop is not listed on Uber Eats. Dan does not add a separate charge for Uber Direct. The fee on card payments taken through Dan still applies."
+            zh="Uber Direct 是速遞服務。顧客在 Dan 落單，外送費由店舖設定。速遞費用由店舖支付予 Uber。店舖不會在 Uber Eats 上架。Dan 不會就 Uber Direct 另收費用。經 Dan 收取的信用卡付款，費用照常適用。"
           />
         </p>
       </div>
@@ -250,51 +252,13 @@ const offlineSteps = [
   },
 ];
 
-const plans = [
-  {
-    key: "free",
-    price: "£0",
-    cadence: <L en="Free plan, per month" zh="免費計劃，每月" />,
-    body: (
-      <>
-        <p className="m-0">
-          <L en="50 included online orders a month." zh="每月包含 50 張網上訂單。" />
-        </p>
-        <p className="mb-0 mt-3">
-          <L
-            en="As a launch promotion, the free plan includes 200 online orders a month for the first year, and 50 a month thereafter."
-            zh="作為推出優惠，免費計劃首年每月包含 200 張網上訂單，其後為每月 50 張。"
-          />
-        </p>
-      </>
-    ),
-  },
-  {
-    key: "20",
-    price: "£20",
-    cadence: <L en="per month, excl. VAT" zh="每月，不含增值稅" />,
-    body: (
-      <p className="m-0">
-        <L en="100 included online orders a month." zh="每月包含 100 張網上訂單。" />
-      </p>
-    ),
-  },
-  {
-    key: "50",
-    price: "£50",
-    cadence: <L en="per month, excl. VAT" zh="每月，不含增值稅" />,
-    body: (
-      <p className="m-0">
-        <L en="500 included online orders a month." zh="每月包含 500 張網上訂單。" />
-      </p>
-    ),
-  },
-];
-
 const waHref = site.whatsapp.trim();
 const mailHref = site.email.trim() ? `mailto:${site.email.trim()}` : "";
 
-export default function Home() {
+export const revalidate = 3600;
+
+export default async function Home() {
+  const copy = pricingCopy(await getPricing());
   const hasContact = Boolean(waHref || mailHref);
   return (
     <>
@@ -345,8 +309,8 @@ export default function Home() {
               </p>
               <p className="hero-in mt-3 max-w-xl text-xl leading-relaxed" style={{ ["--d" as string]: 3 }}>
                 <L
-                  en="Plans begin at £0 a month, with 50 online orders included. On every plan, the first 100 card orders carry no Dan fee; after that, the fee is 3% of each card payment, at most £1 an order."
-                  zh="計劃由每月 £0 起，包含 50 張網上訂單。每個計劃的首 100 張卡付款訂單均不收 Dan 的費用；其後費用為每筆卡付款的 3%，每張訂單最多 £1。"
+                  en={copy.heroEn}
+                  zh={copy.heroZh}
                 />
               </p>
               <p className="hero-in mt-3 text-base text-ink-soft" style={{ ["--d" as string]: 4 }}>
@@ -513,12 +477,17 @@ export default function Home() {
         </section>
 
         {/* Dan's fee */}
-        <section id="commission" className={`${wrap} py-16 lg:py-24`}>
+        <section id="fee" className={`${wrap} py-16 lg:py-24`}>
           <div className="grid items-center gap-10 md:grid-cols-[1fr_1.2fr] md:gap-16">
-            <div className="reveal relative mx-auto grid aspect-square w-full max-w-[17rem] place-items-center border-[3px] border-ink bg-slip">
-              <span aria-hidden className="wordmark select-none text-[7.5rem] leading-none sm:text-[9rem]">
-                100
-              </span>
+            <div className="reveal relative mx-auto grid aspect-square w-full max-w-[17rem] place-items-center border-[3px] border-ink bg-slip px-4 text-center">
+              <div aria-hidden>
+                <p className="wordmark m-0 select-none text-[4.25rem] leading-none sm:text-[5rem]">{copy.figurePrimary}</p>
+                {copy.figureSecondaryEn ? (
+                  <p className="m-0 mt-3 text-xl font-medium">
+                    <L en={copy.figureSecondaryEn} zh={copy.figureSecondaryZh} />
+                  </p>
+                ) : null}
+              </div>
               <span
                 aria-hidden
                 className="stamp-in absolute -bottom-4 -right-3 grid h-24 w-24 -rotate-[4deg] place-items-center rounded-2xl bg-seal"
@@ -531,19 +500,18 @@ export default function Home() {
             <div className="reveal" style={{ ["--d" as string]: 1 }}>
               <SectionHead
                 eyebrow={<L en="Dan's fee" zh="Dan 的費用" />}
-                title={<L en="The first 100 card orders carry no Dan fee" zh="首 100 張卡付款訂單不收 Dan 的費用" />}
+                title={<L en={copy.feeTitleEn} zh={copy.feeTitleZh} />}
               />
               <p className={lead}>
-                <L
-                  en="Shops can bring regular customers from delivery apps onto their own site, and retain what they earn on those orders. On every plan, the shop's first 100 card orders carry no Dan fee. After that, Dan's fee is 3% of each card payment, at most £1 an order. There is no Dan fee on payments made in person or by bank transfer. An order delivered by Uber Direct remains the shop's own online order. Courier charges are paid by the shop to Uber."
-                  zh="店舖可將常客從外送平台轉至自己的網站，並保留該等訂單的收入。每個計劃的首 100 張卡付款訂單均不收 Dan 的費用。其後，Dan 的費用為每筆卡付款的 3%，每張訂單最多 £1。到店付款及銀行轉帳不收 Dan 的費用。經 Uber Direct 外送的訂單，仍屬店舖自己的網上訂單。速遞費用由店舖支付予 Uber。"
-                />
+                <L en={copy.feeBodyEn} zh={copy.feeBodyZh} />
               </p>
+              {copy.feePromoEn ? (
+                <p className="mt-3 max-w-2xl text-lg text-ink-soft">
+                  <L en={copy.feePromoEn} zh={copy.feePromoZh} />
+                </p>
+              ) : null}
               <p className="mt-3 max-w-2xl text-base text-ink-soft">
-                <L
-                  en="Card payments are settled directly to the shop through Stripe. Card fees are paid by the shop to Stripe. Dan's fee is deducted by Stripe from the card payment, and is returned if the order is refunded in full. Customers may also pay in person, or by bank transfer once staff have confirmed receipt."
-                  zh="信用卡付款經 Stripe 直接結算至店舖。刷卡費由店舖支付予 Stripe。Dan 的費用由 Stripe 在卡付款中扣除，如訂單全數退款，費用會一併退回。顧客亦可到店付款，或以銀行轉帳付款，由員工確認收款。"
-                />
+                <L en={copy.feeSettlementEn} zh={copy.feeSettlementZh} />
               </p>
             </div>
           </div>
@@ -554,90 +522,58 @@ export default function Home() {
           <div className="reveal">
             <SectionHead
               eyebrow={<L en="Pricing" zh="價錢" />}
-              title={<L en="From £0 a month, with 50 online orders" zh="每月 £0 起，包含 50 張網上訂單" />}
+              title={<L en={copy.pricingTitleEn} zh={copy.pricingTitleZh} />}
             />
             <p className={lead}>
-              <L
-                en="The free plan includes 50 online orders a month. On every plan, the first 100 card orders carry no Dan fee; after that, the fee is 3% of each card payment, at most £1 an order. There is no Dan fee on payments made in person or by bank transfer. Dan is being built and has not launched yet."
-                zh="免費計劃每月包含 50 張網上訂單。每個計劃的首 100 張卡付款訂單均不收 Dan 的費用；其後費用為每筆卡付款的 3%，每張訂單最多 £1。到店付款及銀行轉帳不收 Dan 的費用。Dan 仍在開發中，尚未推出。"
-              />
+              <L en={copy.pricingLeadEn} zh={copy.pricingLeadZh} />
             </p>
           </div>
-          <ul className="m-0 mt-10 grid list-none grid-cols-1 gap-5 p-0 md:grid-cols-3">
-            {plans.map((plan, i) => (
-              <li
-                key={plan.key}
-                className="reveal m-0 border-[3px] border-ink bg-slip p-5 sm:p-6"
-                style={{ ["--d" as string]: i }}
-              >
-                <h3 className="m-0 text-4xl font-semibold leading-none sm:text-5xl">{plan.price}</h3>
-                <p className="m-0 mt-2 text-[0.9375rem] font-medium">{plan.cadence}</p>
-                <div className="mt-4 text-base leading-relaxed">{plan.body}</div>
-              </li>
-            ))}
-          </ul>
-          <div className="reveal mt-8 border-[3px] border-ink bg-slip p-5 sm:p-6">
-            <h3 className="m-0 text-2xl font-semibold leading-tight">
-              <L en="Duo setup" zh="雙系統設置" />
-            </h3>
-            <p className="mb-0 mt-3 max-w-2xl">
-              <L
-                en="With the duo arrangement, Dan operates alongside the shop's existing till. That till continues to work, and the shop does not have to replace it."
-                zh="在雙系統安排下，Dan 與店舖現有的收銀並行運作。該收銀繼續使用，店舖無需更換。"
-              />
-            </p>
-            <p className="mb-0 mt-3 max-w-2xl">
-              <L
-                en="Setup is charged in addition to the monthly plan."
-                zh="設置費在月費以外另行收取。"
-              />
-            </p>
-            <div className="mt-5">
-              <p className="sr-only m-0">
+          <ul className="m-0 mt-10 grid list-none grid-cols-1 items-stretch gap-5 p-0 md:grid-cols-2">
+            <li className="reveal m-0 border-[3px] border-ink bg-slip p-5 sm:p-6">
+              <p className="m-0 text-sm font-semibold">
+                <L en="Free" zh="免費" />
+              </p>
+              <h3 className="m-0 mt-3 text-4xl font-semibold leading-none sm:text-5xl">{copy.freePrice}</h3>
+              <p className="m-0 mt-2 text-[0.9375rem] font-medium">
+                <L en="a month" zh="每月" />
+              </p>
+              <p className="m-0 mt-2 text-[0.9375rem] font-medium">
+                <L en="No VAT charged." zh="不收取增值稅。" />
+              </p>
+              <p className="mb-0 mt-4 text-base leading-relaxed">
+                <L en={copy.freeBodyEn} zh={copy.freeBodyZh} />
+              </p>
+            </li>
+            <li className="reveal m-0 border-[3px] border-ink bg-slip p-5 sm:p-6" style={{ ["--d" as string]: 1 }}>
+              <h3 className="m-0 text-2xl font-semibold leading-tight">
+                <L en="Duo setup" zh="雙系統設置" />
+              </h3>
+              <p className="mb-0 mt-3">
                 <L
-                  en="The usual setup fee is £220 including VAT. The discount price is £99 including VAT."
-                  zh="設置費原價為 £220，已含增值稅。折扣價為 £99，已含增值稅。"
+                  en="With the duo arrangement, Dan operates alongside the shop's existing till. That till continues to work, and the shop does not have to replace it."
+                  zh="在雙系統安排下，Dan 與店舖現有的收銀並行運作。該收銀繼續使用，店舖無需更換。"
                 />
               </p>
-              <div aria-hidden="true" className="flex items-baseline gap-4">
-                <del className="text-2xl font-semibold leading-none text-ink-soft">£220</del>
-                <span className="text-4xl font-semibold leading-none sm:text-5xl">£99</span>
-              </div>
-              <p aria-hidden="true" className="m-0 mt-2 text-[0.9375rem] font-medium">
-                <L en="including VAT" zh="已含增值稅" />
+              <p className="mb-0 mt-3">
+                <L en="Setup is charged in addition to the monthly plan." zh="設置費在月費以外另行收取。" />
               </p>
-            </div>
-            <p className="mb-0 mt-5 max-w-2xl">
-              <L
-                en="The duo service also has a maintenance fee of £5 a month. Hardware is charged separately."
-                zh="雙系統服務另有維護費，每月 £5。硬件另行收費。"
-              />
-            </p>
-          </div>
-          <div className="reveal mt-8 max-w-2xl space-y-3 text-base">
-            <p className="m-0">
-              <L
-                en="An online order, for the included allowance, is a collection or delivery order placed on the shop's own customer site. Till tickets, table QR orders and eat-in orders are not counted."
-                zh="就包含數量而言，網上訂單是指在店舖自己的顧客網站落的自取或外送訂單。收銀單、枱面二維碼訂單及堂食訂單均不計算在內。"
-              />
-            </p>
-            <p className="m-0">
-              <L
-                en="Card fees are paid by the shop to Stripe."
-                zh="刷卡費由店舖支付予 Stripe。"
-              />
-            </p>
-            <p className="m-0">
-              <L
-                en="If the shop needs more than 500 online orders a month, or would like to discuss a pilot, please "
-                zh="如店舖每月需要多於 500 張網上訂單，或希望商討試行安排，請"
-              />
-              <a className="underline decoration-2 underline-offset-4" href="#talk">
-                <L en="get in touch" zh="與我們聯絡" />
-              </a>
-              <L en="." zh="。" />
-            </p>
-          </div>
+              <div className="mt-5">
+                <p className="sr-only m-0">
+                  <L en={copy.setupSrEn} zh={copy.setupSrZh} />
+                </p>
+                <div aria-hidden="true" className="flex items-baseline gap-4">
+                  <del className="text-2xl font-semibold leading-none text-ink-soft">{copy.setupComparePrice}</del>
+                  <span className="text-4xl font-semibold leading-none sm:text-5xl">{copy.setupPrice}</span>
+                </div>
+                <p aria-hidden="true" className="m-0 mt-2 text-[0.9375rem] font-medium">
+                  <L en="No VAT charged." zh="不收取增值稅。" />
+                </p>
+              </div>
+              <p className="mb-0 mt-5">
+                <L en={copy.maintenanceEn} zh={copy.maintenanceZh} />
+              </p>
+            </li>
+          </ul>
         </section>
 
         {/* Demo */}
