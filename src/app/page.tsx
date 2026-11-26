@@ -108,8 +108,8 @@ const features = [
         </p>
         <p className="m-0">
           <L
-            en="Uber Direct is a courier service. The customer orders on Dan, the shop retains the customer, and the shop sets the delivery fee. Courier charges are paid by the shop to Uber. The shop is not listed on Uber Eats, and Dan does not charge commission on these orders."
-            zh="Uber Direct 是速遞服務。顧客在 Dan 落單，店舖保留顧客，並自行設定外送費。速遞費用由店舖支付予 Uber。店舖不會在 Uber Eats 上架，Dan 亦不就此等訂單收取佣金。"
+            en="Uber Direct is a courier service. The customer orders on Dan, the shop retains the customer, and the shop sets the delivery fee. Courier charges are paid by the shop to Uber. The shop is not listed on Uber Eats. Dan makes no extra charge for these orders; its usual fee on card payments applies."
+            zh="Uber Direct 是速遞服務。顧客在 Dan 落單，店舖保留顧客，並自行設定外送費。速遞費用由店舖支付予 Uber。店舖不會在 Uber Eats 上架。Dan 不會就此等訂單額外收費，一般的卡付款費用照常適用。"
           />
         </p>
       </div>
@@ -345,8 +345,8 @@ export default function Home() {
               </p>
               <p className="hero-in mt-3 max-w-xl text-xl leading-relaxed" style={{ ["--d" as string]: 3 }}>
                 <L
-                  en="Plans begin at 0% commission, with 50 online orders a month included. Commission is 0% on the shop's own online orders on every plan."
-                  zh="計劃由零佣金開始，每月包含 50 張網上訂單。每個計劃的自家網上訂單均為零佣金。"
+                  en="Plans begin at £0 a month, with 50 online orders included. On every plan, the first 100 card orders carry no Dan fee; after that, the fee is 3% of each card payment, at most £1 an order."
+                  zh="計劃由每月 £0 起，包含 50 張網上訂單。每個計劃的首 100 張卡付款訂單均不收 Dan 的費用；其後費用為每筆卡付款的 3%，每張訂單最多 £1。"
                 />
               </p>
               <p className="hero-in mt-3 text-base text-ink-soft" style={{ ["--d" as string]: 4 }}>
@@ -512,12 +512,12 @@ export default function Home() {
           </div>
         </section>
 
-        {/* 0% commission */}
+        {/* Dan's fee */}
         <section id="commission" className={`${wrap} py-16 lg:py-24`}>
           <div className="grid items-center gap-10 md:grid-cols-[1fr_1.2fr] md:gap-16">
             <div className="reveal relative mx-auto grid aspect-square w-full max-w-[17rem] place-items-center border-[3px] border-ink bg-slip">
               <span aria-hidden className="wordmark select-none text-[7.5rem] leading-none sm:text-[9rem]">
-                0%
+                100
               </span>
               <span
                 aria-hidden
@@ -530,19 +530,19 @@ export default function Home() {
             </div>
             <div className="reveal" style={{ ["--d" as string]: 1 }}>
               <SectionHead
-                eyebrow={<L en="Commission" zh="佣金" />}
-                title={<L en="0% commission on the shop's own online orders" zh="自家網上訂單零佣金" />}
+                eyebrow={<L en="Dan's fee" zh="Dan 的費用" />}
+                title={<L en="The first 100 card orders carry no Dan fee" zh="首 100 張卡付款訂單不收 Dan 的費用" />}
               />
               <p className={lead}>
                 <L
-                  en="Shops can bring regular customers from delivery apps onto their own site, and retain what they earn on those orders. Commission is 0% on the shop's own online orders, on every plan. An order delivered by Uber Direct remains the shop's own online order. Courier charges are paid by the shop to Uber."
-                  zh="店舖可將常客從外送平台轉至自己的網站，並保留該等訂單的收入。每個計劃的自家網上訂單均為零佣金。經 Uber Direct 外送的訂單，仍屬店舖自己的網上訂單。速遞費用由店舖支付予 Uber。"
+                  en="Shops can bring regular customers from delivery apps onto their own site, and retain what they earn on those orders. On every plan, the shop's first 100 card orders carry no Dan fee. After that, Dan's fee is 3% of each card payment, at most £1 an order. There is no Dan fee on payments made in person or by bank transfer. An order delivered by Uber Direct remains the shop's own online order. Courier charges are paid by the shop to Uber."
+                  zh="店舖可將常客從外送平台轉至自己的網站，並保留該等訂單的收入。每個計劃的首 100 張卡付款訂單均不收 Dan 的費用。其後，Dan 的費用為每筆卡付款的 3%，每張訂單最多 £1。到店付款及銀行轉帳不收 Dan 的費用。經 Uber Direct 外送的訂單，仍屬店舖自己的網上訂單。速遞費用由店舖支付予 Uber。"
                 />
               </p>
               <p className="mt-3 max-w-2xl text-base text-ink-soft">
                 <L
-                  en="Card payments are settled directly to the shop through Stripe. Card fees are paid by the shop to Stripe. Customers may also pay in person, or by bank transfer once staff have confirmed receipt."
-                  zh="信用卡付款經 Stripe 直接結算至店舖。刷卡費由店舖支付予 Stripe。顧客亦可到店付款，或以銀行轉帳付款，由員工確認收款。"
+                  en="Card payments are settled directly to the shop through Stripe. Card fees are paid by the shop to Stripe. Dan's fee is deducted by Stripe from the card payment, and is returned if the order is refunded in full. Customers may also pay in person, or by bank transfer once staff have confirmed receipt."
+                  zh="信用卡付款經 Stripe 直接結算至店舖。刷卡費由店舖支付予 Stripe。Dan 的費用由 Stripe 在卡付款中扣除，如訂單全數退款，費用會一併退回。顧客亦可到店付款，或以銀行轉帳付款，由員工確認收款。"
                 />
               </p>
             </div>
@@ -554,12 +554,12 @@ export default function Home() {
           <div className="reveal">
             <SectionHead
               eyebrow={<L en="Pricing" zh="價錢" />}
-              title={<L en="0% commission, from 50 online orders a month" zh="零佣金，由每月 50 張網上訂單開始" />}
+              title={<L en="From £0 a month, with 50 online orders" zh="每月 £0 起，包含 50 張網上訂單" />}
             />
             <p className={lead}>
               <L
-                en="The free plan includes 50 online orders a month at 0% commission. Commission remains 0% on the shop's own online orders on every plan. The figure of 50 is the allowance on the free plan. Dan is being built and has not launched yet."
-                zh="免費計劃每月包含 50 張網上訂單，佣金為零。每個計劃的自家網上訂單均為零佣金。50 張是免費計劃所包含的數量。Dan 仍在開發中，尚未推出。"
+                en="The free plan includes 50 online orders a month. On every plan, the first 100 card orders carry no Dan fee; after that, the fee is 3% of each card payment, at most £1 an order. There is no Dan fee on payments made in person or by bank transfer. Dan is being built and has not launched yet."
+                zh="免費計劃每月包含 50 張網上訂單。每個計劃的首 100 張卡付款訂單均不收 Dan 的費用；其後費用為每筆卡付款的 3%，每張訂單最多 £1。到店付款及銀行轉帳不收 Dan 的費用。Dan 仍在開發中，尚未推出。"
               />
             </p>
           </div>
