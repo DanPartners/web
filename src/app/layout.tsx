@@ -38,7 +38,7 @@ const notoTc = Noto_Sans_TC({
 export const metadata: Metadata = {
   title: "Dan 單 | Point of sale for restaurants and food shops",
   description:
-    "Dan is an in-shop POS for restaurants and food shops of any cuisine. The counter, QR orders at the table, your own online ordering site, card payments to the shop and kitchen tickets by station. It keeps working offline. 0% commission on your own online orders.",
+    "Dan is an in-shop POS for restaurants and food shops of any cuisine. It is being built and has not launched yet. The counter, table QR, and your own site for collection and delivery. 0% commission on your own online orders.",
   applicationName: "Dan",
 };
 

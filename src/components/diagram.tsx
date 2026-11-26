@@ -77,8 +77,8 @@ export function Diagram() {
         title={<L en="Your customers" zh="你的顧客" />}
         body={
           <L
-            en="Order on your own site, or scan the QR code at the table. Pay by card or at the shop."
-            zh="在你自己的網站落單，或掃描枱上的二維碼。可用信用卡付款，或到店付款。"
+            en="Order on your own site, or scan the QR code at the table. Pay in person, by card or by bank transfer."
+            zh="在你自己的網站落單，或掃描枱上的二維碼。可到店付款、用信用卡或銀行轉帳。"
           />
         }
       >

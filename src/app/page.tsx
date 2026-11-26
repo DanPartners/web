@@ -34,8 +34,8 @@ const features = [
       <ul className="m-0 list-disc space-y-1.5 pl-5">
         <li>
           <L
-            en="An orders board on a tablet: new, preparing, ready, then collected, delivered or served."
-            zh="平板電腦上的訂單板：新單、準備中、可取餐，然後是已取餐、已送達或已上菜。"
+            en="An orders board on a tablet. The default columns are New, Preparing, Ready and Completed, with green, blue, red and grey ticket borders. The owner can add, remove, rename and reorder columns, and set each column's ticket border colour."
+            zh="平板電腦上的訂單板。預設欄是新單、準備中、可取和已完成，票邊是綠、藍、紅和灰。老闆可以新增、刪除、改名和調換次序，並設定每欄的票邊顏色。"
           />
         </li>
         <li>
@@ -77,8 +77,8 @@ const features = [
     title: <L en="QR orders at the table" zh="枱面二維碼落單" />,
     body: (
       <L
-        en="Guests scan the code on their table and order from their phone. They pay by card or at the shop."
-        zh="客人掃描枱上的二維碼，用手機落單。可用信用卡付款，或到店付款。"
+        en="Guests scan the code on their table and order eat-in from their phone. The owner can switch table QR on or off."
+        zh="客人掃描枱上的二維碼，用手機落堂食單。老闆可以開關枱面二維碼。"
       />
     ),
     icon: (
@@ -94,10 +94,20 @@ const features = [
     key: "site",
     title: <L en="Your own online ordering site" zh="自家網上落單網站" />,
     body: (
-      <L
-        en="Customers order online from the shop's own site, at a free address like yourshop.dan.partners. Collection orders too."
-        zh="顧客在店舖自己的網站網上落單，網址免費，例如 yourshop.dan.partners。也可以落自取訂單。"
-      />
+      <div className="space-y-3">
+        <p className="m-0">
+          <L
+            en="Customers order collection or delivery on the shop's own site, at a free address like yourshop.dan.partners. The owner switches on or off collection, delivery by the shop, and delivery handed to Uber Direct."
+            zh="顧客在店舖自己的網站落自取或外送單，網址免費，例如 yourshop.dan.partners。老闆可以開關自取、店舖自己外送，以及交由 Uber Direct 外送。"
+          />
+        </p>
+        <p className="m-0">
+          <L
+            en="Uber Direct is a courier. The customer still orders on Dan. The shop keeps the customer and sets the delivery fee. The shop pays Uber for the courier. Dan takes no commission. The shop is not listed on Uber Eats."
+            zh="Uber Direct 是速遞。顧客仍然在 Dan 落單。店舖留住顧客，並自訂外送費。速遞費由店舖付給 Uber。Dan 不收佣金。店舖不是在 Uber Eats 上架。"
+          />
+        </p>
+      </div>
     ),
     icon: (
       <>
@@ -124,12 +134,34 @@ const features = [
   },
   {
     key: "pay",
-    title: <L en="Card payments to the shop" zh="信用卡款項歸店舖" />,
+    title: <L en="Payment methods" zh="付款方式" />,
     body: (
-      <L
-        en="Card payments go straight to the shop through Stripe."
-        zh="信用卡付款經 Stripe 處理，款項直接歸店舖。"
-      />
+      <ul className="m-0 list-disc space-y-1.5 pl-5">
+        <li>
+          <L
+            en="The owner switches on or off pay in person, card online through Stripe, and bank transfer."
+            zh="老闆可以開關到店付款、經 Stripe 的網上信用卡，以及銀行轉帳。"
+          />
+        </li>
+        <li>
+          <L
+            en="Card payments go straight to the shop through Stripe."
+            zh="信用卡付款經 Stripe 處理，款項直接歸店舖。"
+          />
+        </li>
+        <li>
+          <L
+            en="For a bank transfer, the customer sees the shop's account details and must put the order number as the reference."
+            zh="銀行轉帳時，顧客會看到店舖的戶口資料，並必須以訂單號碼作為付款參考。"
+          />
+        </li>
+        <li>
+          <L
+            en="Staff confirm the payment. They can paste a list of order numbers from the bank statement to mark the matching orders paid in one go. An unpaid bank transfer waits until it is confirmed paid."
+            zh="員工確認收款。他們可以把銀行結單上的一列訂單號碼貼上，一次把相符的訂單標為已付款。未確認的銀行轉帳會等到確認已付才算完成。"
+          />
+        </li>
+      </ul>
     ),
     icon: (
       <>
@@ -193,6 +225,47 @@ const offlineSteps = [
     n: "3",
     title: <L en="It syncs when it is back" zh="恢復後自動同步" />,
     body: <L en="When the line returns, the shop and the Dan cloud sync within seconds." zh="網絡恢復後，店舖和 Dan 雲端會在幾秒內同步。" />,
+  },
+];
+
+const plans = [
+  {
+    key: "free",
+    price: "£0",
+    cadence: <L en="Free, per month" zh="免費，每月" />,
+    body: (
+      <>
+        <p className="m-0">
+          <L en="50 included online orders a month." zh="每月包含 50 張網上訂單。" />
+        </p>
+        <p className="mb-0 mt-3">
+          <L
+            en="As a launch promotion, the free plan includes 200 online orders a month for the first year, then 50 a month."
+            zh="推出優惠：免費計劃首年每月包含 200 張網上訂單，其後每月 50 張。"
+          />
+        </p>
+      </>
+    ),
+  },
+  {
+    key: "20",
+    price: "£20",
+    cadence: <L en="per month, excl. VAT" zh="每月，不含增值稅" />,
+    body: (
+      <p className="m-0">
+        <L en="100 included online orders a month." zh="每月包含 100 張網上訂單。" />
+      </p>
+    ),
+  },
+  {
+    key: "50",
+    price: "£50",
+    cadence: <L en="per month, excl. VAT" zh="每月，不含增值稅" />,
+    body: (
+      <p className="m-0">
+        <L en="500 included online orders a month." zh="每月包含 500 張網上訂單。" />
+      </p>
+    ),
   },
 ];
 
@@ -278,8 +351,8 @@ export default function Home() {
             />
             <p className={lead}>
               <L
-                en="Dan helps the shop run the business. Orders come from the counter, a table's QR code or the shop's own site, and each one goes to the right station in the kitchen."
-                zh="Dan 幫店舖打理生意。訂單來自櫃檯、枱上的二維碼或店舖自己的網站，每張都會傳到廚房對應的工作站。"
+                en="Dan helps the shop run the business. The owner switches on or off how orders are placed: the till, table QR for eat-in, collection, delivery by the shop, and delivery handed to Uber Direct. Each order goes to the right station in the kitchen."
+                zh="Dan 幫店舖打理生意。老闆可以開關落單方式：收銀、枱面二維碼堂食、自取、店舖自己外送，以及交由 Uber Direct 外送。每張訂單都會傳到廚房對應的工作站。"
               />
             </p>
           </div>
@@ -317,6 +390,13 @@ export default function Home() {
               />
             </p>
           </div>
+
+          <p className="reveal mt-5 max-w-2xl">
+            <L
+              en="A stamp card sits on the customer's phone number. Ordering always works as a guest."
+              zh="印花卡記在顧客的電話號碼上。落單永遠可以以訪客身分進行。"
+            />
+          </p>
 
           <div className="mt-16">
             <div className="reveal max-w-2xl">
@@ -421,17 +501,70 @@ export default function Home() {
               />
               <p className={lead}>
                 <L
-                  en="Move your regulars off the delivery apps and onto your own site. Orders there carry no commission."
-                  zh="把熟客從外賣平台帶到你自己的網站。網站上的訂單不收佣金。"
+                  en="Move your regulars off the delivery apps and onto your own site. 0% commission on your own online orders. Delivery handed to Uber Direct is still your own online order. The shop pays Uber for the courier. That payment is not a Dan commission."
+                  zh="把熟客從外賣平台帶到你自己的網站。自家網上訂單零佣金。交由 Uber Direct 外送，仍然是你自己的網上訂單。速遞費由店舖付給 Uber，不是 Dan 的佣金。"
                 />
               </p>
               <p className="mt-3 max-w-2xl text-base text-ink-soft">
                 <L
-                  en="Card payments go through Stripe and the money goes to the shop. Stripe's own card fees still apply. Or the customer pays at the shop."
-                  zh="信用卡付款經 Stripe 處理，款項歸店舖。Stripe 本身的刷卡費仍然適用。顧客也可以到店付款。"
+                  en="Card payments go straight to the shop through Stripe. The card fee is the shop's, paid to Stripe. It is not Dan's margin. Customers can also pay in person, or by bank transfer once staff confirm it."
+                  zh="信用卡付款經 Stripe 處理，款項直接歸店舖。刷卡費由店舖付給 Stripe，不是 Dan 的利潤。顧客也可以到店付款，或在員工確認後以銀行轉帳付款。"
                 />
               </p>
             </div>
+          </div>
+        </section>
+
+        {/* Pricing */}
+        <section id="pricing" className={`${wrap} pb-16 lg:pb-24`}>
+          <div className="reveal">
+            <SectionHead
+              eyebrow={<L en="Pricing" zh="價錢" />}
+              title={<L en="Monthly plans" zh="每月計劃" />}
+            />
+            <p className={lead}>
+              <L
+                en="Dan is being built and has not launched yet. These are the plans. 0% commission on your own online orders."
+                zh="Dan 仍在開發中，尚未推出。以下是計劃。自家網上訂單零佣金。"
+              />
+            </p>
+          </div>
+          <ul className="m-0 mt-10 grid list-none grid-cols-1 gap-5 p-0 md:grid-cols-3">
+            {plans.map((plan, i) => (
+              <li
+                key={plan.key}
+                className="reveal m-0 border-[3px] border-ink bg-slip p-5 sm:p-6"
+                style={{ ["--d" as string]: i }}
+              >
+                <h3 className="m-0 text-4xl font-semibold leading-none sm:text-5xl">{plan.price}</h3>
+                <p className="m-0 mt-2 text-[0.9375rem] font-medium">{plan.cadence}</p>
+                <div className="mt-4 text-base leading-relaxed">{plan.body}</div>
+              </li>
+            ))}
+          </ul>
+          <div className="reveal mt-8 max-w-2xl space-y-3 text-base">
+            <p className="m-0">
+              <L
+                en="An online order that counts is a collection or delivery order placed on the shop's own customer site. Till tickets do not count. Table QR and eat-in orders do not count."
+                zh="計入數量的網上訂單，是在店舖自己的顧客網站落的自取或外送訂單。收銀單不計算。枱面二維碼和堂食訂單也不計算。"
+              />
+            </p>
+            <p className="m-0">
+              <L
+                en="Card fees are the shop's, paid to Stripe. They are not Dan's margin."
+                zh="刷卡費由店舖付給 Stripe，不是 Dan 的利潤。"
+              />
+            </p>
+            <p className="m-0">
+              <L en="Need more than 500 online orders a month? " zh="每月網上訂單需要多於 500 張？" />
+              <a className="underline decoration-2 underline-offset-4" href="#talk">
+                <L en="Talk to us." zh="歡迎聯絡我們。" />
+              </a>
+              <L
+                en=" Shops can also talk to us about a pilot."
+                zh="店舖也可以聯絡我們商談試行計劃。"
+              />
+            </p>
           </div>
         </section>
 
@@ -483,8 +616,8 @@ export default function Home() {
               </h2>
               <p className="mt-4 max-w-2xl text-lg opacity-90">
                 <L
-                  en="Dan is being built and has not launched yet. If you run a restaurant or food shop and want to hear more, talk to us for pilot pricing. You can talk to us in Cantonese, Mandarin or English."
-                  zh="Dan 仍在開發中，尚未推出。如果你經營餐廳或食品店，想知道更多，歡迎聯絡我們了解試行計劃價錢。你可以用廣東話、普通話或英文與我們溝通。"
+                en="Dan is being built and has not launched yet. If you run a restaurant or food shop and want a pilot, talk to us. You can talk to us in Cantonese, Mandarin or English."
+                zh="Dan 仍在開發中，尚未推出。如果你經營餐廳或食品店，想參加試行計劃，歡迎聯絡我們。你可以用廣東話、普通話或英文與我們溝通。"
                 />
               </p>
               {hasContact ? (
