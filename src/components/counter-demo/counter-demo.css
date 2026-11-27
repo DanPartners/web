@@ -1,0 +1,782 @@
+/*
+ * The frame is the column the demo sits in. The stage keeps a gutter of its
+ * own for shadows, and the host is drawn out by exactly that gutter, so the
+ * demo's own edges sit on the column's edges at any scale:
+ *   wide     940px and up   a 40px gutter each side of 1160
+ *   mid      560 to 940     an 18px gutter each side of 680
+ *   compact  under 560      a 12px gutter on the left of 358; on the right the
+ *                           stage runs out to the screen's edge (--dc-pad is
+ *                           the page's own side padding, set by the page)
+ */
+.dc-frame {
+  container: dc / inline-size;
+}
+
+.dc-host {
+  --dc-font: var(--font-dm-sans, 'DM Sans'), system-ui, -apple-system, sans-serif;
+  --dc-mono: var(--font-plex-mono, 'IBM Plex Mono'), ui-monospace, monospace;
+  position: relative;
+  margin-left: calc((100% + var(--dc-pad, 0px)) * -12 / 378);
+  margin-right: calc(-1 * var(--dc-pad, 0px));
+}
+
+/* The stage's size, held until it is measured and its faces have loaded */
+.dc-hold {
+  aspect-ratio: 390 / 350;
+}
+
+@container dc (min-width: 560px) {
+  .dc-host {
+    margin-inline: calc(-18 / 680 * 100%);
+  }
+
+  .dc-hold {
+    aspect-ratio: 716 / 540;
+  }
+}
+
+@container dc (min-width: 940px) {
+  .dc-host {
+    margin-inline: calc(-40 / 1160 * 100%);
+  }
+
+  .dc-hold {
+    aspect-ratio: 1240 / 560;
+  }
+}
+
+/* One glyph in each face and weight the demo uses, so they load before it mounts */
+.dc-faces {
+  position: absolute;
+  visibility: hidden;
+  pointer-events: none;
+  font: 400 13px var(--dc-font);
+}
+
+.dc-faces > b { font-weight: 600; }
+.dc-faces > i { font: normal 500 12px var(--dc-mono); }
+.dc-faces > em { font: normal 600 12px var(--dc-mono); }
+
+@keyframes dc-carry {
+  35% { transform: scale(1.03); filter: drop-shadow(0 14px 18px rgba(74, 52, 28, 0.22)); }
+  90%, 100% { transform: none; filter: none; }
+}
+
+/* All rules belong to this demo, in each of its three designs. */
+.dc {
+  & .ss-stage {
+    /* Dan's look, from the dashboard's own tokens */
+    --ss-accent: #b83a2e;
+    --ss-accent-2: #b83a2e;
+    --ss-accent-soft: rgba(184, 58, 46, 0.1);
+    --ss-canvas: #f4efe4;
+    --ss-surface: #fffdf8;
+    --ss-chrome: #fbf8f1;
+    --ss-raised: #fffdf8;
+    --ss-text-strong: #1b1916;
+    --ss-text: #6f6a60;
+    --ss-text-faint: #9c968b;
+    --ss-icon: #6f6a60;
+    --ss-line: rgba(27, 25, 22, 0.1);
+    --ss-line-faint: rgba(27, 25, 22, 0.06);
+    --ss-ink-1: rgba(27, 25, 22, 0.04);
+    --ss-ink-2: rgba(27, 25, 22, 0.065);
+    --ss-ink-3: rgba(27, 25, 22, 0.09);
+    --ss-ink-4: rgba(27, 25, 22, 0.12);
+    --ss-ink-5: rgba(27, 25, 22, 0.17);
+    --ss-success: #1f9d55;
+    --ss-font: var(--dc-font);
+    --ss-mono: var(--dc-mono);
+    --ss-radius-sm: 5px;
+    --ss-radius-md: 7px;
+    /* Every shadow falls inside the gutter: none is cut by the stage's edge */
+    --ss-shadow-hero: 0 0 0 1px rgba(27, 25, 22, 0.08), 0 34px 60px -32px rgba(74, 52, 28, 0.42), 0 18px 36px -20px rgba(27, 25, 22, 0.3);
+    --ss-shadow-satellite: 0 0 0 1px rgba(27, 25, 22, 0.05), 0 16px 32px -12px rgba(74, 52, 28, 0.3), 0 4px 10px -4px rgba(27, 25, 22, 0.12);
+
+    --dc-new: #1f9d55;
+    --dc-prep: #2f6fdb;
+    --dc-ready: #c8402f;
+    --dc-paper: #fffdf8;
+    /* One gutter: the window's top, the phone's left, the tickets' right */
+    --gutter: 40px;
+    /* The stage's height: a ticket waits just below it before it prints */
+    --dc-h: 560px;
+    /* Where the kitchen's tickets lie: half over the window's right margin,
+       half on the page */
+    --dc-tx: 992px;
+    --dc-ty: 352px;
+    --dc-tw: 208px;
+
+    /* The page is the ground: no plate, and the crop at the foot is where the
+       section ends */
+    overflow: hidden;
+    font: 13px/1.4 var(--ss-font);
+    color: var(--ss-text-strong);
+  }
+
+  /* ---- The counter: whole across, off the bottom ---- */
+
+  .dc-window {
+    position: absolute;
+    top: var(--gutter);
+    left: 160px;
+    width: 936px;
+    height: 1200px;
+    background: var(--ss-canvas);
+    box-shadow: var(--ss-shadow-hero);
+  }
+
+  .dc-window .ss-window__body {
+    display: flex;
+  }
+
+  /* The phone covers the sidebar: its rows start clear of the phone's corner */
+  .dc-side {
+    display: flex;
+    flex-direction: column;
+    flex-shrink: 0;
+    gap: 2px;
+    width: 220px;
+    padding: 56px 12px 0;
+    border-right: 1px solid var(--ss-line);
+    background: #ede7da;
+  }
+
+  .dc-nav {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    height: 32px;
+    padding: 0 8px;
+    border-radius: 6px;
+  }
+
+  .dc-nav[data-on] {
+    background: var(--ss-ink-2);
+  }
+
+  .dc-main {
+    flex: 1;
+    min-width: 0;
+    padding: 0 24px;
+  }
+
+  .dc-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 54px;
+  }
+
+  .dc-title {
+    font-size: 22px;
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    line-height: 1.2;
+  }
+
+  .dc-view {
+    width: 132px;
+  }
+
+  /* The right margin is where the tickets lie: the board stops short of it */
+  .dc-board {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 16px;
+    margin-right: 100px;
+  }
+
+  /* A quiet rule under each heading: the colour belongs to the slips */
+  .dc-col__head {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    padding: 0 2px 8px;
+    border-bottom: 1px solid var(--ss-line);
+    font-weight: 600;
+  }
+
+  .dc-col__label {
+    font-size: 14px;
+    letter-spacing: -0.01em;
+  }
+
+  .dc-col__count {
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--ss-text);
+    font-variant-numeric: tabular-nums;
+  }
+
+  .dc-col__list {
+    display: flex;
+    flex-direction: column;
+    padding-top: 12px;
+  }
+
+  .dc-col__list > .dc-slip {
+    margin-bottom: 12px;
+  }
+
+  /* The story's card carries its own gap, so the space it opens includes it */
+  .dc-gap {
+    padding-bottom: 12px;
+  }
+
+  .dc-gap[data-hidden] {
+    visibility: hidden;
+  }
+
+  /* An order opens its space first and is then simply there: it is not seen
+     through while the orders below are still on their way down */
+  .ss-collapse[data-reveal='drop'][data-open] {
+    transition: grid-template-rows 0.5s cubic-bezier(0.45, 0, 0.2, 1), opacity 0.18s ease 0.36s;
+  }
+
+  /* ---- An order slip: a paper ticket, torn along its foot ---- */
+
+  .dc-slip {
+    filter: drop-shadow(0 1px 0 rgba(27, 25, 22, 0.16)) drop-shadow(0 5px 9px rgba(74, 52, 28, 0.09));
+    /* Pushed down as a new order opens above: a layer keeps the text with its box */
+    will-change: transform;
+  }
+
+  .dc-card {
+    --tooth: 8px;
+    display: grid;
+    gap: 8px;
+    padding: 11px 14px 20px;
+    border-top: 3px solid var(--tone);
+    background: var(--dc-paper);
+    -webkit-mask: conic-gradient(from -45deg at bottom, #0000, #000 1deg 89deg, #0000 90deg) 50% / var(--tooth) 100%;
+    mask: conic-gradient(from -45deg at bottom, #0000, #000 1deg 89deg, #0000 90deg) 50% / var(--tooth) 100%;
+    transition: border-color 0.3s ease;
+  }
+
+  .dc-card[data-tone='new'] { --tone: var(--dc-new); }
+  .dc-card[data-tone='prep'] { --tone: var(--dc-prep); }
+  .dc-card[data-tone='ready'] { --tone: var(--dc-ready); }
+
+  .dc-card__top {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 10px;
+    min-height: 21px;
+  }
+
+  /* Filler keeps the pitch of the words it stands for */
+  .dc-card__top:has(> .ss-bar) {
+    align-items: center;
+  }
+
+  .dc-card__no {
+    font-size: 17px;
+    font-weight: 600;
+    letter-spacing: -0.015em;
+    line-height: 1.25;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .dc-card__age {
+    font-size: 11.5px;
+    color: var(--ss-text);
+  }
+
+  .dc-card__meta {
+    display: flex;
+    align-items: center;
+    min-height: 16px;
+    margin-top: -6px;
+    font-size: 11.5px;
+    color: var(--ss-text);
+  }
+
+  /* Dan's own "Paid by card" mark: ink on paper, square as a stamp */
+  .dc-paid {
+    justify-self: start;
+    border-radius: 3px;
+    background: var(--ss-text-strong);
+    color: #fffdf8;
+    font-weight: 600;
+  }
+
+  /* On the orders the story is not about it is a quiet tag: the ink is the story's */
+  .dc-paid--quiet {
+    background: var(--ss-ink-2);
+    color: var(--ss-text);
+    font-weight: 500;
+  }
+
+  .dc-card__line {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    min-height: 18px;
+    font-size: 13px;
+    line-height: 18px;
+  }
+
+  /* The lines of one order sit closer to each other than to the rest of the card */
+  .dc-card__line + .dc-card__line {
+    margin-top: -5px;
+  }
+
+  /* The figure in a track of its own, so every × sits on one line down the card */
+  .dc-qty {
+    display: inline-flex;
+    flex: none;
+    gap: 4px;
+    color: var(--ss-accent);
+    font-weight: 600;
+  }
+
+  .dc-qty > span {
+    width: 8px;
+    text-align: center;
+  }
+
+  .dc-card__total {
+    display: flex;
+    align-items: center;
+    min-height: 22px;
+  }
+
+  /* The amount is the chip that flew in: it shows the instant the flyer goes */
+  .dc-amount {
+    font-size: 15px;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+    line-height: 1.3;
+    font-variant-numeric: tabular-nums;
+    white-space: nowrap;
+  }
+
+  /* Hidden until the chip lands; shown, it follows its card (a card that has
+     lifted off takes its amount with it) */
+  .dc-amount:not([data-shown]) {
+    visibility: hidden;
+  }
+
+  /* In flight the words ride a white chip lifted off the page. The flyer's
+     box is the words' own, so it leaves the button and lands on the card's
+     total at exactly their sizes; the chip's surface is spread around them
+     and has lowered into the slip before it reaches the card */
+  .dc-chip {
+    --chip: #fff;
+    --lift: rgba(74, 52, 28, 0.32);
+    display: block;
+    border-radius: 999px;
+    background: var(--chip);
+    box-shadow: -0.42em 0 0 0.2em var(--chip), 0.42em 0 0 0.2em var(--chip), 0 0.5em 1.1em 0.1em var(--lift);
+    color: var(--ss-text-strong);
+    font-weight: 600;
+    letter-spacing: -0.01em;
+    line-height: 1.3;
+    font-variant-numeric: tabular-nums;
+    white-space: nowrap;
+  }
+
+  .ss-fly[data-go] .dc-chip {
+    background: rgba(255, 253, 248, 0);
+    box-shadow: -0.42em 0 0 0.2em rgba(255, 253, 248, 0), 0.42em 0 0 0.2em rgba(255, 253, 248, 0), 0 0.5em 1.1em 0.1em rgba(74, 52, 28, 0);
+    transition: background-color 0.28s ease 0.4s, box-shadow 0.28s ease 0.4s;
+  }
+
+  .dc-card__actions {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin-top: 2px;
+  }
+
+  /* The card in flight between columns: one slip, carried */
+  .dc-carry {
+    z-index: 20;
+  }
+
+  /* A card is carried, not thrown: a small lift and a deeper shadow */
+  .dc-carry[data-go] .ss-fly__lift {
+    animation-name: dc-carry;
+    animation-timing-function: cubic-bezier(0.45, 0, 0.25, 1);
+  }
+
+  /* It takes its new column's colour as it arrives, not as it leaves */
+  .dc-carry .dc-card {
+    transition: border-color 0.3s ease 0.5s;
+  }
+
+  /* ---- The customer's phone: straddles the counter's sidebar ---- */
+
+  .dc-phone {
+    position: absolute;
+    top: 96px;
+    left: var(--gutter);
+    box-shadow: var(--ss-shadow-satellite), 0 30px 50px -24px rgba(74, 52, 28, 0.42);
+  }
+
+  .dc-shop {
+    display: flex;
+    flex-direction: column;
+    padding: 6px 20px 0;
+    color: #1b1916;
+    font-family: var(--ss-font);
+  }
+
+  .dc-shop__head {
+    display: grid;
+    gap: 12px;
+    padding-bottom: 2px;
+  }
+
+  .dc-shop__name {
+    font-size: 28px;
+    font-weight: 700;
+    letter-spacing: -0.025em;
+    line-height: 34px;
+  }
+
+  /* The kit's segmented control at iOS size */
+  .dc-shop__mode {
+    --ss-row: 34px;
+    --ss-radius-md: 11px;
+    --ss-radius-sm: 9px;
+    --ss-ink-2: #efe9dc;
+    --ss-raised: #fffdf8;
+    --ss-text: #6f6a60;
+    --ss-text-strong: #1b1916;
+  }
+
+  .dc-shop__mode .ss-seg__option {
+    font-size: 15px;
+  }
+
+  .dc-shop__when {
+    font-size: 15px;
+    line-height: 20px;
+    color: #6f6a60;
+  }
+
+  .dc-shop__label {
+    padding: 20px 0 4px;
+    font-size: 15px;
+    font-weight: 600;
+    line-height: 20px;
+    color: #6f6a60;
+  }
+
+  .dc-shop__line {
+    padding: 11px 0;
+    border-bottom: 1px solid rgba(27, 25, 22, 0.08);
+  }
+
+  .dc-shop__price {
+    color: #1b1916;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .dc-shop__qty {
+    display: grid;
+    place-items: center;
+    width: 26px;
+    height: 26px;
+    border-radius: 7px;
+    background: #f4efe4;
+    font-size: 15px;
+    font-weight: 600;
+    line-height: 1;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .dc-shop__total {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    padding: 14px 0 18px;
+    font-size: 19px;
+    font-weight: 700;
+    letter-spacing: -0.015em;
+    line-height: 24px;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .dc-pay {
+    display: grid;
+    place-items: center;
+    height: 52px;
+    border-radius: 14px;
+    background: #b83a2e;
+    color: #fff;
+    font-size: 17px;
+    font-weight: 600;
+    line-height: 1.3;
+    /* Red to green is a long way round: quick, so it never rests in between */
+    transition: background-color 0.18s ease;
+  }
+
+  .dc-pay[data-state='paid'],
+  .dc-pay[data-state='done'] {
+    background: #1f9d55;
+  }
+
+  .dc-pay__amount {
+    letter-spacing: -0.01em;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .dc-pay__done {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .dc-shop__foot {
+    display: grid;
+    justify-items: center;
+    gap: 9px;
+    padding-top: 18px;
+  }
+
+  .dc-shop__more {
+    display: grid;
+    gap: 12px;
+    margin-top: 26px;
+    padding-top: 22px;
+    border-top: 1px solid rgba(27, 25, 22, 0.08);
+  }
+
+  /* ---- The kitchen's tickets: paper fed up from the printer below the
+     frame, lying half over the window's margin and half on the page. Two
+     printed earlier; the story prints the third, the only one with words ---- */
+
+  /* The pile is one object on the page, with one soft shadow under it */
+  .dc-pile {
+    position: absolute;
+    top: calc(var(--dc-ty) + 14px);
+    left: var(--dc-tx);
+    width: var(--dc-tw);
+    height: calc(var(--dc-h) - var(--dc-ty) + 64px);
+    box-shadow: 0 18px 26px -16px rgba(74, 52, 28, 0.34);
+  }
+
+  /* Each sheet leans a little, and none leans out past the pile's own edge */
+  .dc-pile > .dc-ticket {
+    top: -14px;
+    left: -3px;
+  }
+
+  .dc-ticket {
+    --dc-turn: -1deg;
+    position: absolute;
+    top: var(--dc-ty);
+    left: var(--dc-tx);
+    z-index: 6;
+    width: var(--dc-tw);
+    filter: drop-shadow(0 1px 0 rgba(27, 25, 22, 0.16)) drop-shadow(0 8px 10px rgba(74, 52, 28, 0.2));
+    transform: translateY(calc(var(--dc-h) - var(--dc-ty) + 48px)) rotate(var(--dc-turn));
+    /* Turned about the middle of what shows */
+    transform-origin: 50% 110px;
+    will-change: transform;
+  }
+
+  .dc-ticket[data-state='printed'] {
+    transform: rotate(var(--dc-turn));
+    transition: transform 1.15s cubic-bezier(0.3, 0.55, 0.25, 1);
+  }
+
+  /* Gone the way it came, whole: back through the foot it printed from */
+  .dc-ticket[data-state='gone'] {
+    transition: transform 0.42s cubic-bezier(0.5, 0, 0.8, 0.5);
+  }
+
+  .dc-ticket--old {
+    z-index: 4;
+    filter: drop-shadow(0 1px 0 rgba(27, 25, 22, 0.14)) drop-shadow(0 4px 6px rgba(74, 52, 28, 0.12));
+    transform: translate(var(--dc-dx), var(--dc-dy)) rotate(var(--dc-turn));
+  }
+
+  .dc-ticket--old[data-i='0'] {
+    --dc-turn: 3deg;
+    --dc-dx: -6px;
+    --dc-dy: 24px;
+  }
+
+  .dc-ticket--old[data-i='1'] {
+    --dc-turn: -3.5deg;
+    --dc-dx: -9px;
+    --dc-dy: 10px;
+    z-index: 5;
+  }
+
+  .dc-ticket--old .dc-ticket__head,
+  .dc-ticket--old .dc-ticket__sub,
+  .dc-ticket--old .dc-ticket__line {
+    display: flex;
+    align-items: center;
+    min-height: 18px;
+  }
+
+  .dc-ticket--old .dc-ticket__head {
+    min-height: 20px;
+  }
+
+  .dc-ticket__paper {
+    --tooth: 8px;
+    height: 264px;
+    padding: 22px 18px 0;
+    background: var(--dc-paper);
+    color: #1b1916;
+    font: 500 12px/18px var(--ss-mono);
+    -webkit-mask: conic-gradient(from 135deg at top, #0000, #000 1deg 89deg, #0000 90deg) 50% / var(--tooth) 100%;
+    mask: conic-gradient(from 135deg at top, #0000, #000 1deg 89deg, #0000 90deg) 50% / var(--tooth) 100%;
+  }
+
+  .dc-ticket__head {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    font-size: 15px;
+    font-weight: 600;
+    line-height: 20px;
+  }
+
+  .dc-ticket__sub {
+    color: #6f6a60;
+  }
+
+  /* Whole pixels, so both rules are drawn at one weight */
+  .dc-ticket__rule {
+    height: 2px;
+    margin: 9px 0;
+    background: repeating-linear-gradient(90deg, rgba(27, 25, 22, 0.3) 0 5px, transparent 5px 9px);
+  }
+
+  .dc-ticket__line {
+    display: flex;
+    gap: 8px;
+  }
+
+  .dc-ticket__line > :first-child {
+    flex: none;
+    width: 26px;
+    color: #b83a2e;
+    font-weight: 600;
+  }
+
+  .dc-ticket__foot {
+    color: #6f6a60;
+  }
+
+  .dc-rest {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+  }
+
+  /* ---- Mid: New and Preparing beside the tickets. The order arrives on its own ---- */
+
+  &.dc--mid .ss-stage {
+    --gutter: 18px;
+    --dc-h: 540px;
+    --dc-tx: 508px;
+    --dc-ty: 332px;
+    --dc-tw: 190px;
+    --ss-shadow-hero: 0 0 0 1px rgba(27, 25, 22, 0.08), 0 28px 40px -28px rgba(74, 52, 28, 0.44), 0 14px 24px -16px rgba(27, 25, 22, 0.3);
+  }
+
+  &.dc--mid .dc-window {
+    left: var(--gutter);
+    width: 585px;
+  }
+
+  &.dc--mid .dc-side,
+  &.dc--mid .dc-col[data-tone='ready'] {
+    display: none;
+  }
+
+  &.dc--mid .dc-main {
+    padding: 0 20px;
+  }
+
+  &.dc--mid .dc-board {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 14px;
+    margin-right: 92px;
+  }
+
+  /* ---- Compact: a crop of the board. The window runs off the screen's right
+     edge through the Ready column, and off the bottom; the ticket prints
+     over the order left in New ---- */
+
+  &.dc--compact .ss-stage {
+    --gutter: 12px;
+    --dc-h: 350px;
+    --ss-shadow-hero: 0 0 0 1px rgba(27, 25, 22, 0.08), 0 20px 24px -18px rgba(74, 52, 28, 0.4), 0 10px 14px -10px rgba(27, 25, 22, 0.28);
+  }
+
+  &.dc--compact .dc-window {
+    left: var(--gutter);
+    width: 470px;
+  }
+
+  &.dc--compact .dc-side,
+  &.dc--compact .dc-head {
+    display: none;
+  }
+
+  &.dc--compact .dc-main {
+    padding: 12px 10px 0;
+  }
+
+  /* Two whole columns, and a third that the screen's edge cuts through its filler */
+  &.dc--compact .dc-board {
+    grid-template-columns: repeat(3, 140px);
+    gap: 8px;
+    margin-right: 0;
+  }
+
+  &.dc--compact .dc-col__list {
+    padding-top: 10px;
+  }
+
+  /* The gap under the story's card is a full margin, so the order below it
+     starts exactly at the crop */
+  &.dc--compact .dc-col__list > .dc-slip {
+    margin-bottom: 16px;
+  }
+
+  &.dc--compact .dc-gap {
+    padding-bottom: 16px;
+  }
+
+  &.dc--compact .dc-card {
+    padding: 10px 10px 18px;
+  }
+
+  &.dc--compact .dc-card__line {
+    font-size: 12px;
+  }
+
+  &.dc--compact .dc-ticket {
+    filter: drop-shadow(0 1px 0 rgba(27, 25, 22, 0.16)) drop-shadow(0 6px 6px rgba(74, 52, 28, 0.24));
+  }
+
+  &.dc--compact .dc-ticket__paper {
+    padding: 18px 10px 0;
+    font-size: 11px;
+  }
+
+  &.dc--compact .dc-ticket__line {
+    gap: 5px;
+  }
+
+  &.dc--compact .dc-ticket__line > :first-child {
+    width: 20px;
+  }
+
+  &.dc--compact .dc-ticket__rule ~ .dc-ticket__rule,
+  &.dc--compact .dc-ticket__foot {
+    display: none;
+  }
+}
