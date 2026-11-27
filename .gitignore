@@ -4,3 +4,5 @@ out
 next-env.d.ts
 *.tsbuildinfo
 .vercel
+# Agent skills are installed from skills-lock.json (npx skills add benjitaylor/skills --skill stageshow)
+.agents

@@ -12,6 +12,10 @@ const eslintConfig = defineConfig([
     "out/**",
     "build/**",
     "next-env.d.ts",
+    // The StageShow kit is vendored third-party source (MIT, see src/stageshow/LICENSE).
+    "src/stageshow/**",
+    // Agent skills installed with `npx skills add` are tooling, not site code.
+    ".agents/**",
   ]),
 ]);
 
