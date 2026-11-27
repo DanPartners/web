@@ -1,8 +1,8 @@
 # Dan website (dan.partners)
 
-The public intro page for Dan, an in-shop point of sale (POS) for restaurants and food shops of any cuisine: the counter, QR orders at the table, the shop's own online ordering site, card payments straight to the shop, bilingual kitchen tickets by station, and offline working. One landing page, in English and Traditional Chinese, with no forms, analytics, trackers or cookies. Prices are rendered on the server from Stripe.
+The public site for Dan, a modern POS and commerce system for restaurants and food shops of any cuisine: the counter, QR orders at the table, the shop's own online ordering site, a simple online shop, card payments straight to the shop, kitchen tickets by station, and offline working. One page, in English and Traditional Chinese, with no forms, analytics, trackers or cookies. Prices are rendered on the server from Stripe.
 
-Next.js 16 (App Router), React 19, TypeScript, Tailwind 4. Fonts (Bodoni Moda, IBM Plex Sans, IBM Plex Mono, Noto Sans TC) come from `next/font/google` and are self-hosted at build.
+Next.js 16 (App Router), React 19, TypeScript, Tailwind 4. Fonts (DM Sans, Bodoni Moda, IBM Plex Mono, Noto Sans TC) come from `next/font/google` and are self-hosted at build. Icons are Lucide.
 
 ## Run
 
@@ -21,6 +21,16 @@ npm test
 ```
 
 `npm run build` does not write an `out/` directory. Public prices are read on the server, so the site is a Next.js server deployment rather than a static export.
+
+## The hero demo
+
+The hero is a live, looping demo of Dan in use (`src/components/counter-demo`): a customer pays on their phone, the order lands on the counter's board, staff accept it, the kitchen ticket prints. It is React in the page, not a video, and it only runs while it is on screen. With reduced motion it shows one still frame.
+
+It is built with [StageShow](https://benji.org/stageshow). The kit parts it uses are vendored, unchanged, in `src/stageshow/kit` (MIT, see `src/stageshow/LICENSE`); ESLint skips that folder. `REHEARSAL.md` beside the component records how the demo was filmed and checked, what is unresolved, and how to film it again.
+
+The demo has three designs and picks one from the width of its column: wide from 940px, mid from 560px, compact below. The page's side padding and the demo's own gutter are tied together in two places: `wrap` in `src/app/page.tsx` and `.hero-demo` in `src/app/globals.css`.
+
+The skill itself is not in the repo. `skills-lock.json` records its source and commit; `npx skills add benjitaylor/skills --skill stageshow` installs it into `.agents/` (ignored by git).
 
 ## Deploy
 
@@ -52,13 +62,13 @@ If `STRIPE_PRICING_KEY` is unset, or Stripe returns an error or an incomplete ca
 All links live in `src/site.ts`:
 
 - `loginUrl`: where the header "Log in" button goes (`https://my.dan.partners`).
-- `demoUrl`: where "Try the demo" goes (`https://my.dan.partners/shop/orders?demo=1`, the demo on the orders board).
-- `orderDemoUrl`: the demo shop's ordering page (`https://order.dan.partners/?table=5`). The QR code in "Try the demo" points here; it is drawn at build time (npm `qrcode`), so no QR service is called. The demo shop is the Dan cloud's (`dan-cloud shop add ... --slug order --demo`).
+- `demoUrl`: where "View the demo" goes (`https://my.dan.partners/shop/orders?demo=1`, the demo on the orders board).
+- `orderDemoUrl`: the demo shop's ordering page (`https://order.dan.partners/?table=5`). The QR code in the Demonstration section points here; it is drawn at build time (npm `qrcode`), so no QR service is called. The demo shop is the Dan cloud's (`dan-cloud shop add ... --slug order --demo`).
 - `slashieUrl`: the footer's link to Slashie Ltd.
 - `whatsapp`: a full link such as `https://wa.me/44...`. Empty hides the button.
 - `email`: an address. Empty hides the button.
 
-While both contact values are empty, the Talk to us section shows "Contact details are coming soon" instead of buttons.
+While both contact values are empty, the Contact section's button goes to Slashie Ltd (`slashieUrl`), of which Dan Partners is a trading name. Set `whatsapp` or `email` and it shows those instead.
 
 ## Language
 
@@ -66,4 +76,4 @@ The page holds both languages and `<html lang>` picks one. The EN / 中文 switc
 
 ## Motion
 
-CSS only, plus a small IntersectionObserver for scroll reveals (`src/components/motion.tsx`). Everything is under `prefers-reduced-motion: no-preference`; with reduced motion the page is static.
+The hero demo leads. The rest of the page only arrives: CSS, plus a small IntersectionObserver for scroll reveals (`src/components/motion.tsx`). Everything is under `prefers-reduced-motion: no-preference`; with reduced motion the page is static and the demo shows its still.
