@@ -2,7 +2,7 @@
  * The only place to set links. Nothing else in the site holds a URL.
  *
  * - loginUrl: where "Log in" in the header goes.
- * - demoUrl: where "Try the demo" goes (opens the demo on the orders board).
+ * - demoUrl: where "View the demo" goes (opens the demo on the orders board).
  * - orderDemoUrl: the demo shop's ordering page, as a customer at a table. The
  *   QR code in the demo section points here (the Dan cloud's demo shop).
  * - slashieUrl: Slashie Ltd's site, linked from the footer.

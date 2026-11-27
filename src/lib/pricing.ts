@@ -51,6 +51,10 @@ export type PricingCopy = {
   metaDescriptionEn: string;
   heroEn: string;
   heroZh: string;
+  heroNoteEn: string;
+  heroNoteZh: string;
+  figureCapEn: string;
+  figureCapZh: string;
   feeTitleEn: string;
   feeTitleZh: string;
   feeBodyEn: string;
@@ -154,7 +158,7 @@ export function pricingCopy(pricing: PublicPricing): PricingCopy {
 
   return {
     metaDescriptionEn: joinParts([
-      "Dan is an in-shop point of sale for restaurants and food shops. It is being built and has not launched yet.",
+      "Dan is a modern POS and commerce system for restaurants and food shops: the counter, table QR ordering, online ordering and a simple online shop.",
       `The monthly plan is ${free}.`,
       `Dan's fee is ${rate} on each card payment taken through Dan, capped at ${cap} an order.`,
       promo,
@@ -169,6 +173,10 @@ export function pricingCopy(pricing: PublicPricing): PricingCopy {
       `經 Dan 收取的信用卡付款（網上落單及枱面二維碼），費用為 ${rateZh}，每張訂單上限 ${capZh}。`,
       promoChinese,
     ], ""),
+    heroNoteEn: `The Free plan is ${free} a month. Dan's fee is ${rate} per card payment through Dan, capped at ${cap} an order.`,
+    heroNoteZh: `免費計劃每月 ${free}。經 Dan 的信用卡付款，每筆費用為 ${rateZh}，每張訂單上限 ${capZh}。`,
+    figureCapEn: `capped at ${cap} an order`,
+    figureCapZh: `每張訂單上限 ${capZh}`,
     feeTitleEn: `Dan's fee is ${rate} on card payments through Dan`,
     feeTitleZh: `經 Dan 的信用卡付款，費用為 ${rateZh}`,
     feeBodyEn: `Dan's fee applies to card payments taken through Dan, for online ordering and table QR. The fee is ${rate} on each such payment, capped at ${cap} an order. There is no Dan fee on cash, bank transfer or the shop's own card machine. Stripe's card processing is charged separately, and is paid by the shop to Stripe.`,
@@ -187,12 +195,12 @@ export function pricingCopy(pricing: PublicPricing): PricingCopy {
     pricingLeadEn: joinParts([
       `Dan's fee on card payments taken through Dan is ${rate}, capped at ${cap} an order.`,
       promo,
-      "There is no Dan fee on cash, bank transfer or the shop's own card machine. Stripe's card processing is charged separately. No VAT charged. Dan is being built and has not launched yet.",
+      "There is no Dan fee on cash, bank transfer or the shop's own card machine. Stripe's card processing is charged separately. No VAT charged.",
     ], " "),
     pricingLeadZh: joinParts([
       `經 Dan 收取的信用卡付款，費用為 ${rateZh}，每張訂單上限 ${capZh}。`,
       promoChinese,
-      "現金、銀行轉帳及店舖自己的卡機不收 Dan 的費用。Stripe 的信用卡處理費另行收取。不收取增值稅。Dan 仍在開發中，尚未推出。",
+      "現金、銀行轉帳及店舖自己的卡機不收 Dan 的費用。Stripe 的信用卡處理費另行收取。不收取增值稅。",
     ], ""),
     freeBodyEn: "Online ordering, table QR and the counter are included.",
     freeBodyZh: "包括網上落單、枱面二維碼及櫃檯。",

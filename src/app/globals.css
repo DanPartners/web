@@ -1,41 +1,48 @@
 @import "tailwindcss";
 
 /*
- * Colour. Three brand colours, plus the lighter paper the slips are printed on.
- * Contrast: ink on paper 15.2, vermilion on paper 4.9, white on vermilion 5.7.
- * Vermilion is never used for text on the dark ink band.
+ * Colour. Warm paper, ink, and one accent: Dan's red.
+ * Contrast: ink on paper 15.6, soft ink on paper 6.2, red on paper 5.0,
+ * white on red 5.7. Red is never used for text on the dark ink band.
  */
 @theme inline {
-  --color-paper: #f5eedc;
-  --color-paper-deep: #e6dfcb;
+  --color-paper: #f6f1e7;
+  --color-paper-deep: #ede6d8;
+  --color-card: #fffdf8;
   --color-ink: #1b1916;
-  --color-ink-soft: #5d5950;
+  --color-ink-soft: #5f5a50;
+  --color-ink-faint: #8a8478;
+  --color-line: #1b19161f;
+  --color-line-strong: #1b191638;
   --color-seal: #b83a2e;
-  --color-seal-deep: #902d24;
-  --color-slip: #fffef8;
+  --color-seal-deep: #972e24;
+  --color-seal-soft: #b83a2e14;
+  --color-slip: #fffdf8;
+  --font-sans: var(--font-dm-sans), "Helvetica Neue", Arial, sans-serif;
   --font-wordmark: var(--font-bodoni), "Didot", "Bodoni MT", "Times New Roman", serif;
-  --font-body: var(--font-plex-sans), "Helvetica Neue", Arial, sans-serif;
   --font-zh: var(--font-noto-tc), "Noto Sans TC", "PingFang TC", "Microsoft JhengHei", "Noto Sans CJK TC", sans-serif;
   --font-ticket: var(--font-plex-mono), "Courier New", ui-monospace, monospace;
+  --radius-control: 0.625rem;
+  --radius-card: 1rem;
 }
 
 :root {
   --ink: #1b1916;
-  --paper: #f5eedc;
+  --paper: #f6f1e7;
   --seal: #b83a2e;
 }
 
 html {
   background: var(--color-paper);
   scroll-behavior: smooth;
-  scroll-padding-top: 1rem;
+  scroll-padding-top: 5.5rem;
 }
 
 body {
   min-height: 100dvh;
   background: var(--color-paper);
   color: var(--color-ink);
-  font-family: var(--font-body);
+  font-family: var(--font-sans);
   font-size: 1.0625rem;
   line-height: 1.6;
   overflow-x: clip;
@@ -58,7 +65,7 @@ html[lang="zh-Hant"] body {
   line-height: 1.75;
 }
 
-/* The word "Dan" is always the wordmark. */
+/* The word "Dan" in the logo. */
 .wordmark {
   font-family: var(--font-wordmark);
   font-weight: 600;
@@ -76,189 +83,343 @@ p {
 }
 
 :focus-visible {
-  outline: 3px solid var(--ink);
+  outline: 2px solid var(--ink);
   outline-offset: 3px;
-  border-radius: 2px;
+  border-radius: 4px;
 }
 
 .on-ink :focus-visible {
   outline-color: var(--paper);
 }
 
-/* Buttons */
-.btn {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 0.5rem;
-  min-height: 3rem;
-  padding: 0.5rem 1.5rem;
-  border: 3px solid var(--ink);
-  font-weight: 600;
-  line-height: 1.2;
-  text-decoration: none;
-  transition: transform 0.15s ease, background-color 0.15s ease, color 0.15s ease;
+@layer components {
+  /* ---------- Type ---------- */
+
+  .display {
+    font-size: clamp(2.25rem, 1.25rem + 3.6vw, 3.5rem);
+    font-weight: 600;
+    letter-spacing: -0.035em;
+    line-height: 1.04;
+  }
+
+  .title {
+    font-size: clamp(1.875rem, 1.3rem + 2vw, 2.75rem);
+    font-weight: 600;
+    letter-spacing: -0.028em;
+    line-height: 1.1;
+  }
+
+  .subtitle {
+    font-size: clamp(1.375rem, 1.2rem + 0.6vw, 1.625rem);
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    line-height: 1.2;
+  }
+
+  .lead {
+    font-size: clamp(1.0625rem, 1rem + 0.3vw, 1.1875rem);
+    line-height: 1.6;
+    color: var(--color-ink-soft);
+  }
+
+  html[lang="zh-Hant"] .display,
+  html[lang="zh-Hant"] .title,
+  html[lang="zh-Hant"] .subtitle {
+    font-weight: 700;
+    letter-spacing: -0.01em;
+    line-height: 1.25;
+  }
+
+  .eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.625rem;
+    font-size: 0.875rem;
+    font-weight: 600;
+    line-height: 1.4;
+    color: var(--color-seal);
+  }
+
+  .eyebrow::before {
+    content: "";
+    width: 1.25rem;
+    height: 2px;
+    background: currentColor;
+  }
+
+  .on-ink .eyebrow {
+    color: var(--paper);
+  }
+
+  /*
+   * The signature: a dictionary entry. The headword, its romanisation, its
+   * part of speech, its sense. Typography only.
+   */
+  .entry {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 0.15em 0.6em;
+    font-size: 1.0625rem;
+    line-height: 1.4;
+    color: var(--color-ink-soft);
+  }
+
+  .entry__word {
+    font-family: var(--font-zh);
+    font-size: 1.375rem;
+    font-weight: 700;
+    line-height: 1;
+    color: var(--color-seal);
+  }
+
+  .entry__say {
+    font-family: var(--font-wordmark);
+    font-size: 1.1875rem;
+    font-style: italic;
+    font-weight: 500;
+    color: var(--color-ink);
+  }
+
+  .entry__say sup {
+    font-size: 0.6em;
+    font-style: normal;
+  }
+
+  .entry__class {
+    font-family: var(--font-wordmark);
+    font-style: italic;
+  }
+
+  html[lang="zh-Hant"] .entry__class {
+    font-family: var(--font-zh);
+    font-style: normal;
+  }
+
+  /* ---------- Controls ---------- */
+
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    min-height: 3rem;
+    padding: 0.5rem 1.25rem;
+    border: 1px solid transparent;
+    border-radius: var(--radius-control);
+    font-size: 1rem;
+    font-weight: 600;
+    line-height: 1.2;
+    text-decoration: none;
+    white-space: nowrap;
+    transition: transform 0.15s ease, background-color 0.15s ease, border-color 0.15s ease, color 0.15s ease, box-shadow 0.15s ease;
+  }
+
+  .btn-sm {
+    min-height: 2.5rem;
+    padding: 0.25rem 1rem;
+    font-size: 0.9375rem;
+  }
+
+  .btn-seal {
+    background: var(--seal);
+    color: #fff;
+    box-shadow: 0 1px 0 #ffffff33 inset, 0 1px 2px #1b191633;
+  }
+
+  .btn-seal:hover {
+    background: var(--color-seal-deep);
+  }
+
+  .btn-line {
+    border-color: var(--color-line-strong);
+    background: transparent;
+    color: var(--ink);
+  }
+
+  .btn-line:hover {
+    border-color: var(--ink);
+    background: #1b19160a;
+  }
+
+  .btn-paper {
+    background: var(--paper);
+    color: var(--ink);
+  }
+
+  .btn-paper:hover {
+    background: #fff;
+  }
+
+  .btn:active {
+    transform: translateY(1px);
+  }
+
+  .btn svg {
+    flex: none;
+    width: 1.125rem;
+    height: 1.125rem;
+  }
+
+  .link {
+    color: inherit;
+    text-decoration: underline;
+    text-decoration-color: var(--color-line-strong);
+    text-decoration-thickness: 1.5px;
+    text-underline-offset: 0.2em;
+    transition: text-decoration-color 0.15s ease;
+  }
+
+  .link:hover {
+    text-decoration-color: currentColor;
+  }
+
+  /* ---------- Surfaces ---------- */
+
+  .card {
+    border: 1px solid var(--color-line);
+    border-radius: var(--radius-card);
+    background: var(--color-card);
+  }
+
+  /* An icon in a soft red tile: one set (Lucide), one size, one stroke. */
+  .tile {
+    display: grid;
+    flex: none;
+    place-items: center;
+    width: 2.75rem;
+    height: 2.75rem;
+    border-radius: 0.75rem;
+    background: var(--color-seal-soft);
+    color: var(--color-seal);
+  }
+
+  .tile svg {
+    width: 1.375rem;
+    height: 1.375rem;
+  }
+
+  /* The hero's demo runs to the screen's edge on a phone: it needs the page's
+     own side padding to do so (see .dc-host in counter-demo.css). */
+  .hero-demo {
+    --dc-pad: 1.25rem;
+  }
+
+  @media (min-width: 40rem) {
+    .hero-demo {
+      --dc-pad: 1.5rem;
+    }
+  }
+
+  /* Its wide design starts with the page's wide padding, at 1020px, and not
+     in the few pixels before it */
+  @media (max-width: 63.7499rem) {
+    .hero-demo {
+      max-width: 58.7rem;
+    }
+  }
+
+  .site-head {
+    position: sticky;
+    top: 0;
+    z-index: 40;
+    border-bottom: 1px solid var(--color-line);
+    background: color-mix(in srgb, var(--color-paper) 86%, transparent);
+    -webkit-backdrop-filter: saturate(1.4) blur(14px);
+    backdrop-filter: saturate(1.4) blur(14px);
+  }
+
+  .nav-link {
+    padding: 0.5rem 0.75rem;
+    border-radius: 0.5rem;
+    font-size: 0.9375rem;
+    font-weight: 500;
+    color: var(--color-ink-soft);
+    text-decoration: none;
+    transition: color 0.15s ease, background-color 0.15s ease;
+  }
+
+  .nav-link:hover {
+    background: #1b19160a;
+    color: var(--color-ink);
+  }
+
+  /* The torn receipt edge, as in the dashboard. */
+  .torn {
+    --tooth: 0.75rem;
+    padding-bottom: calc(var(--tooth) / 2 + 0.75rem);
+    -webkit-mask: conic-gradient(from -45deg at bottom, #0000, #000 1deg 89deg, #0000 90deg) 50% / var(--tooth) 100%;
+    mask: conic-gradient(from -45deg at bottom, #0000, #000 1deg 89deg, #0000 90deg) 50% / var(--tooth) 100%;
+  }
+
+  .torn-wrap {
+    filter: drop-shadow(0 1px 0 #1b191626) drop-shadow(0 8px 14px #4a341c1a);
+  }
+
+  .slip {
+    background: var(--color-slip);
+    color: #1a1612;
+    font-family: var(--font-ticket);
+    font-size: 0.8125rem;
+    line-height: 1.5;
+    padding: 1rem 1rem 0.75rem;
+  }
+
+  .slip [data-l="zh"] {
+    font-family: var(--font-zh);
+  }
+
+  .slip-rule {
+    height: 1.5px;
+    margin: 0.5rem 0;
+    background: repeating-linear-gradient(90deg, #1a161266 0 5px, transparent 5px 9px);
+  }
 }
 
-.btn-sm {
-  min-height: 2.75rem;
-  padding: 0.25rem 0.75rem;
-  font-size: 0.875rem;
-}
+/* A short screen: the hero's head gives way, so more of the demo is above the
+   fold. Unlayered, so it outranks the head's own utilities. */
+@media (min-width: 64rem) and (max-height: 50rem) {
+  .hero-head {
+    padding-top: 1.5rem;
+  }
 
-.btn-seal {
-  background: var(--seal);
-  border-color: var(--seal);
-  color: #fff;
-}
+  .hero-head .display {
+    font-size: 2.75rem;
+  }
 
-.btn-seal:hover {
-  background: var(--color-seal-deep);
-  border-color: var(--color-seal-deep);
-}
-
-.btn-ink {
-  background: transparent;
-  color: var(--ink);
-}
-
-.btn-ink:hover {
-  background: var(--ink);
-  color: var(--paper);
-}
-
-.btn-paper {
-  background: var(--paper);
-  border-color: var(--paper);
-  color: var(--ink);
-}
-
-.btn-paper:hover {
-  background: #fff;
-  border-color: #fff;
-}
-
-.btn:active {
-  transform: translateY(1px);
-}
-
-/* The torn receipt edge, as in the dashboard. */
-.torn {
-  --tooth: 0.75rem;
-  padding-bottom: calc(var(--tooth) / 2 + 0.75rem);
-  -webkit-mask: conic-gradient(from -45deg at bottom, #0000, #000 1deg 89deg, #0000 90deg) 50% / var(--tooth) 100%;
-  mask: conic-gradient(from -45deg at bottom, #0000, #000 1deg 89deg, #0000 90deg) 50% / var(--tooth) 100%;
-}
-
-.torn-wrap {
-  filter: drop-shadow(0 1px 0 #1b191633) drop-shadow(0 8px 10px #1b191620);
-}
-
-.slip {
-  background: var(--color-slip);
-  color: #1a1612;
-  font-family: var(--font-ticket);
-  font-size: 0.8125rem;
-  line-height: 1.45;
-  padding: 1rem 1rem 0.75rem;
-}
-
-.slip [data-l="zh"] {
-  font-family: var(--font-zh);
-}
-
-.slip-rule {
-  border-top: 2px dashed #1a161266;
-  margin: 0.5rem 0;
-}
-
-/* Section rhythm: a heavy ink rule, then the heading. */
-.sec-head {
-  border-top: 6px solid var(--ink);
-  padding-top: 1rem;
-}
-
-.eyebrow {
-  font-size: 0.8125rem;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  font-weight: 600;
-  color: var(--color-seal);
-}
-
-html[lang="zh-Hant"] .eyebrow {
-  letter-spacing: 0.08em;
-  text-transform: none;
+  .hero-head .lead {
+    font-size: 1.0625rem;
+  }
 }
 
 /* ---------- Motion ----------
  * The settled state is the default. Every animation starts from a "before"
  * state set inside the no-preference query, so reduced motion (and no JS)
- * shows the finished page with nothing moving.
+ * shows the finished page with nothing moving. The hero's demo leads; the
+ * rest of the page only arrives.
  */
 @media (prefers-reduced-motion: no-preference) {
-  /* Hero slip prints out of the slot, then is torn off. */
-  .slip-anim {
-    animation: print 2.6s steps(36, end) 0.3s both, tear 0.7s cubic-bezier(0.2, 0.8, 0.3, 1) 3.05s both;
-  }
-
-  @keyframes print {
-    from {
-      transform: translateY(-100%);
-    }
-    to {
-      transform: translateY(0);
-    }
-  }
-
-  @keyframes tear {
-    0% {
-      transform: translate(0, 0) rotate(0);
-    }
-    35% {
-      transform: translate(5px, 8px) rotate(2.2deg);
-    }
-    100% {
-      transform: translate(3px, 4px) rotate(1.2deg);
-    }
-  }
-
   .hero-in {
     animation: rise 0.7s cubic-bezier(0.2, 0.7, 0.2, 1) both;
-    animation-delay: calc(var(--d, 0) * 110ms);
+    animation-delay: calc(var(--d, 0) * 90ms);
   }
 
   @keyframes rise {
     from {
       opacity: 0;
-      transform: translateY(14px);
-    }
-  }
-
-  .stamp-in {
-    animation: stamp 0.55s cubic-bezier(0.3, 1.5, 0.5, 1) 3.4s both;
-  }
-
-  @keyframes stamp {
-    from {
-      opacity: 0;
-      transform: scale(1.8) rotate(-8deg);
-    }
-    to {
-      opacity: 1;
-      transform: scale(1) rotate(-4deg);
+      transform: translateY(12px);
     }
   }
 
   /* Scroll reveal. .js-motion is set by script, so no JS means no hiding. */
   .js-motion .reveal:not(.in) {
     opacity: 0;
-    transform: translateY(22px);
+    transform: translateY(18px);
   }
 
   .js-motion .reveal {
     transition: opacity 0.7s ease, transform 0.7s cubic-bezier(0.2, 0.7, 0.2, 1);
-    transition-delay: calc(var(--d, 0) * 100ms);
+    transition-delay: calc(var(--d, 0) * 80ms);
   }
 
   /* One order splits by station. */
@@ -282,110 +443,38 @@ html[lang="zh-Hant"] .eyebrow {
     transform: scaleY(1);
     transition: transform 0.6s ease 0.1s;
   }
-
-  /* Sync pulse between shop and cloud. */
-  .dot-a {
-    animation: travel-x 2.6s ease-in-out infinite;
-  }
-
-  .dot-b {
-    animation: travel-x-back 2.6s ease-in-out 1.3s infinite;
-  }
-
-  .ring {
-    animation: ring 2.6s ease-out infinite;
-  }
-
-  @keyframes ring {
-    0% {
-      transform: scale(0.96);
-      opacity: 0.55;
-    }
-    70%,
-    100% {
-      transform: scale(1.12);
-      opacity: 0;
-    }
-  }
-
-  /* Offline: the three steps light up in turn. */
-  .step-lit {
-    animation: lit 9s ease-in-out infinite;
-    animation-delay: calc(var(--i) * 3s);
-  }
-
-  @keyframes lit {
-    0%,
-    30%,
-    100% {
-      background-color: transparent;
-    }
-    4%,
-    26% {
-      background-color: #ffffff1a;
-    }
-  }
-
-  .blink {
-    animation: blink 1.4s steps(2, jump-none) infinite;
-  }
-
-  @keyframes blink {
-    50% {
-      opacity: 0.3;
-    }
-  }
 }
 
-/* Diagram links. Vertical on a phone, horizontal from md up. */
-.link {
+/* ---------- How it works: the links between shop, cloud and customers.
+ * Vertical on a phone, horizontal from md up. One dot runs each way. */
+.wire {
   position: relative;
-  height: 4.5rem;
   width: 0;
+  height: 3.5rem;
   margin-inline: auto;
-  border-left: 4px dashed var(--ink);
+  border-left: 1.5px dashed var(--color-line-strong);
 }
 
-.link .dot {
+.wire .dot {
   position: absolute;
   top: 0;
-  left: -8px;
-  width: 12px;
-  height: 12px;
+  left: -4.75px;
+  width: 8px;
+  height: 8px;
   border-radius: 999px;
   background: var(--seal);
-}
-
-.link .dot-b {
-  top: 100%;
-  margin-top: -12px;
-}
-
-.link .arr {
-  position: absolute;
-  left: -10px;
-  width: 16px;
-  height: 14px;
-  background: var(--ink);
-}
-
-.link .arr-s {
-  top: -4px;
-  clip-path: polygon(50% 0, 0 100%, 100% 100%);
-}
-
-.link .arr-e {
-  bottom: -4px;
-  clip-path: polygon(50% 100%, 0 0, 100% 0);
+  opacity: 0;
 }
 
 @media (prefers-reduced-motion: no-preference) {
-  .link .dot-a {
-    animation-name: travel-y;
+  .wire .dot-a {
+    animation: travel-y 3.2s ease-in-out infinite;
   }
-  .link .dot-b {
-    animation-name: travel-y-back;
+
+  .wire .dot-b {
+    animation: travel-y-back 3.2s ease-in-out 1.6s infinite;
   }
+
   @keyframes travel-y {
     0% {
       top: 0;
@@ -396,13 +485,14 @@ html[lang="zh-Hant"] .eyebrow {
       opacity: 1;
     }
     100% {
-      top: calc(100% - 12px);
+      top: calc(100% - 8px);
       opacity: 0;
     }
   }
+
   @keyframes travel-y-back {
     0% {
-      top: calc(100% - 12px);
+      top: calc(100% - 8px);
       opacity: 0;
     }
     15%,
@@ -417,45 +507,29 @@ html[lang="zh-Hant"] .eyebrow {
 }
 
 @media (min-width: 48rem) {
-  .link {
-    height: 0;
+  .wire {
     width: 100%;
-    min-width: 5rem;
+    min-width: 3rem;
+    height: 0;
     margin: 0;
+    border-top: 1.5px dashed var(--color-line-strong);
     border-left: 0;
-    border-top: 4px dashed var(--ink);
   }
-  .link .dot {
-    top: -8px;
+
+  .wire .dot {
+    top: -4.75px;
     left: 0;
   }
-  .link .dot-b {
-    top: -8px;
-    left: calc(100% - 12px);
-    margin-top: 0;
-  }
-  .link .arr {
-    top: -10px;
-    width: 14px;
-    height: 16px;
-  }
-  .link .arr-s {
-    left: -4px;
-    clip-path: polygon(0 50%, 100% 0, 100% 100%);
-  }
-  .link .arr-e {
-    left: auto;
-    right: -4px;
-    bottom: auto;
-    clip-path: polygon(100% 50%, 0 0, 0 100%);
-  }
+
   @media (prefers-reduced-motion: no-preference) {
-    .link .dot-a {
+    .wire .dot-a {
       animation-name: travel-x;
     }
-    .link .dot-b {
+
+    .wire .dot-b {
       animation-name: travel-x-back;
     }
+
     @keyframes travel-x {
       0% {
         left: 0;
@@ -466,13 +540,14 @@ html[lang="zh-Hant"] .eyebrow {
         opacity: 1;
       }
       100% {
-        left: calc(100% - 12px);
+        left: calc(100% - 8px);
         opacity: 0;
       }
     }
+
     @keyframes travel-x-back {
       0% {
-        left: calc(100% - 12px);
+        left: calc(100% - 8px);
         opacity: 0;
       }
       15%,
@@ -484,12 +559,5 @@ html[lang="zh-Hant"] .eyebrow {
         opacity: 0;
       }
     }
-  }
-}
-
-/* Reduced motion: the dots rest in the middle of the link, nothing moves. */
-@media (prefers-reduced-motion: reduce) {
-  .link .dot {
-    display: none;
   }
 }

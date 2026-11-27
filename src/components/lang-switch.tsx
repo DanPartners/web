@@ -31,16 +31,12 @@ export function LangSwitch() {
     }
   }
 
-  const base = "min-h-11 min-w-12 px-3 text-sm font-semibold border-3 border-ink";
+  const base = "min-h-9 min-w-11 rounded-[0.4375rem] px-2.5 text-sm font-semibold transition-colors";
+  const on = "bg-ink text-paper";
+  const off = "text-ink-soft hover:text-ink";
   return (
-    <div role="group" aria-label="Language / 語言" className="inline-flex">
-      <button
-        type="button"
-        onClick={() => choose("en")}
-        aria-pressed={lang === "en"}
-        lang="en"
-        className={`${base} ${lang === "en" ? "bg-ink text-paper" : "bg-transparent text-ink hover:bg-paper-deep"}`}
-      >
+    <div role="group" aria-label="Language / 語言" className="inline-flex gap-0.5 rounded-[0.625rem] border border-line-strong p-[0.1875rem]">
+      <button type="button" onClick={() => choose("en")} aria-pressed={lang === "en"} lang="en" className={`${base} ${lang === "en" ? on : off}`}>
         EN
       </button>
       <button
@@ -48,7 +44,7 @@ export function LangSwitch() {
         onClick={() => choose("zh-Hant")}
         aria-pressed={lang === "zh-Hant"}
         lang="zh-Hant"
-        className={`${base} -ml-[3px] font-zh ${lang === "zh-Hant" ? "bg-ink text-paper" : "bg-transparent text-ink hover:bg-paper-deep"}`}
+        className={`${base} font-zh ${lang === "zh-Hant" ? on : off}`}
       >
         中文
       </button>

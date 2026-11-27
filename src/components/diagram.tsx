@@ -1,47 +1,33 @@
+import { Cloud, Smartphone, Store } from "lucide-react";
 import { L } from "./l";
 
-function Link() {
+function Wire() {
   return (
-    <div aria-hidden className="link">
-      <i className="dot dot-a" />
-      <i className="dot dot-b" />
-      <i className="arr arr-s" />
-      <i className="arr arr-e" />
-    </div>
-  );
-}
-
-function Node({
-  title,
-  body,
-  children,
-  pulse,
-}: {
-  title: React.ReactNode;
-  body: React.ReactNode;
-  children: React.ReactNode;
-  pulse?: boolean;
-}) {
-  return (
-    <li className="relative m-0 list-none">
-      <div className="relative z-10 h-full border-[3px] border-ink bg-slip p-5">
-        <div aria-hidden className="mb-3 flex h-12 items-center">
-          {children}
-        </div>
-        <h3 className="m-0 text-xl font-semibold leading-tight">{title}</h3>
-        <p className="mb-0 mt-2 text-[0.9375rem] leading-relaxed text-ink-soft">{body}</p>
+    <li aria-hidden className="m-0 flex list-none items-center px-0 py-1 md:px-1 md:py-0">
+      <div className="wire">
+        <i className="dot dot-a" />
+        <i className="dot dot-b" />
       </div>
-      {pulse && <div aria-hidden className="ring pointer-events-none absolute inset-0 border-[3px] border-seal" />}
     </li>
   );
 }
 
-const icon = "h-12 w-auto text-ink";
+function Node({ title, body, children }: { title: React.ReactNode; body: React.ReactNode; children: React.ReactNode }) {
+  return (
+    <li className="card m-0 h-full list-none p-6">
+      <span aria-hidden className="tile">
+        {children}
+      </span>
+      <h3 className="m-0 mt-5 text-xl font-semibold leading-tight tracking-[-0.015em]">{title}</h3>
+      <p className="mb-0 mt-2 text-[0.9375rem] leading-relaxed text-ink-soft">{body}</p>
+    </li>
+  );
+}
 
-/** Shop machine, Dan cloud, customers. The dots run both ways along each link. */
+/** Shop machine, Dan cloud, customers. A dot runs each way along each link. */
 export function Diagram() {
   return (
-    <ol className="m-0 grid list-none grid-cols-1 items-center p-0 md:grid-cols-[1fr_minmax(5rem,7rem)_1fr_minmax(5rem,7rem)_1fr]">
+    <ol className="m-0 grid list-none grid-cols-1 items-stretch p-0 md:grid-cols-[1fr_minmax(3rem,5rem)_1fr_minmax(3rem,5rem)_1fr]">
       <Node
         title={<L en="The shop" zh="店舖" />}
         body={
@@ -51,15 +37,10 @@ export function Diagram() {
           />
         }
       >
-        <svg viewBox="0 0 64 48" className={icon} fill="none" stroke="currentColor" strokeWidth="3">
-          <rect x="4" y="14" width="40" height="26" />
-          <path d="M10 14V6h28v8M10 28h28" />
-          <rect x="48" y="22" width="12" height="18" fill="#B83A2E" stroke="none" />
-        </svg>
+        <Store strokeWidth={1.75} />
       </Node>
-      <Link />
+      <Wire />
       <Node
-        pulse
         title={<L en="Dan cloud" zh="Dan 雲端" />}
         body={
           <L
@@ -68,11 +49,9 @@ export function Diagram() {
           />
         }
       >
-        <svg viewBox="0 0 64 48" className={icon} fill="none" stroke="currentColor" strokeWidth="3">
-          <path d="M16 38a10 10 0 0 1-1-20 14 14 0 0 1 27-3 11 11 0 0 1 6 23z" />
-        </svg>
+        <Cloud strokeWidth={1.75} />
       </Node>
-      <Link />
+      <Wire />
       <Node
         title={<L en="Your customers" zh="你的顧客" />}
         body={
@@ -82,11 +61,7 @@ export function Diagram() {
           />
         }
       >
-        <svg viewBox="0 0 64 48" className={icon} fill="none" stroke="currentColor" strokeWidth="3">
-          <rect x="22" y="3" width="20" height="42" rx="3" />
-          <path d="M28 38h8" />
-          <rect x="27" y="12" width="10" height="10" fill="#B83A2E" stroke="none" />
-        </svg>
+        <Smartphone strokeWidth={1.75} />
       </Node>
     </ol>
   );

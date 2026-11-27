@@ -22,6 +22,10 @@ const banned = [
   /first 100 card/i,
   /不含增值稅/,
   /已含增值稅/,
+  /being built/i,
+  /not launched/i,
+  /開發中/,
+  /尚未推出/,
 ];
 
 function price(fields: Record<string, unknown>) {
